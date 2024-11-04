@@ -1,4 +1,3 @@
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 .ORIG x3000
@@ -17,7 +16,7 @@ ADD R6, R6, #-1 					; #5FFD
 AND R0, R0, #0 
 STR R0, R6, #0						; push int n=0
 ADD R6, R6, #-1						; #5FFC
-ADD R0, R6, #0 						; push int result=0
+STR R0, R6, #0 						; push int result=0
 
 ADD R0, R4, #0 
 ADD R0, R0, #4						; loads prompt1 into R0
@@ -27,20 +26,20 @@ AND R0, R0, #0
 ADD R0, R4, #2 						; load neg ascii into R0
 LDR R0, R0, #0 
 
-ADD R6, R6, #-1 					; #5FFB push getnum return address
+ADD R6, R6, #-1 					; #5FFB push getnum return value
 
 JSR GETNUM 
 
 LDR R0, R6, #0
 STR R0, R5, #-1 					; store getnum() into n
 
-ADD R6, R6, #-1 					; pop getnum return value
+ADD R6, R6, #1 					    ; pop getnum return value
 
 ADD R6, R6, #-1
 STR R0, R5, #-1 
-STR R0, R6, #0 						; push factorials return address
+STR R0, R6, #0 						; push fibonacci arg
 
-ADD R6, R6, #-1
+ADD R6, R6, #-1                     ; push fibonacci return value
 
 JSR FIBONACCI 
 
@@ -70,6 +69,38 @@ RESULT2 .STRINGZ ") = "				; 32
 
 FIBONACCI
 ;    Your fibonacci() function starts here
+;    f(n) = F(n-1) + F(n-2)
+;    where F(0) = 0 and F(1) = 1
+ADD R6, R6, #-1
+STR R7, R6, #0 ; push return addr 
+ADD R6, R6, #-1
+STR R5, R6, #0 ; push prev frame ptr
+ADD R5, R6, #0
+
+; BASE CASES
+; checking n == 0
+LDR R0, R5, #3
+ADD R0, R0, #1
+ADD R0, R0, #-1
+BRz END_CASE
+; checking n == 1
+LDR R0, R5, #3
+ADD R0, R0, #-1 
+BRz END_CASE 
+
+; GENERAL CASE
+
+JSR FIBONACCI
+
+; END CASE
+END_CASE
+STR R0, R5, #2  ; store n in return value
+
+LDR R5, R6, #0			; restore prev frame pointer 
+ADD R6, R6, #1				
+
+LDR R7, R6, #0			; restore prev return address 
+ADD R6, R6, #1 	
 RET
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -85,25 +116,23 @@ ADD R6, R6, #-1			;push previous frame pointer x5FF9
 STR R5, R6, #0
 ADD R5, R6, #0			; set frame pointer
 
-ADD R6, R6, #-1 		; push input onto stack x5FF8
-
 ADD R6, R6, #-1 
-STR R0, R6, #0			; save R0 x5FF7
+STR R0, R6, #0			; save R0 x5FF8
 
 ADD R6, R6, #-1
-STR R1, R6, #0 			; save R1
+STR R1, R6, #0 			; save R1 x5FF7
 
 ;; logic
 AND R0, R0, #0 			; set R0 to zero
 GETC
 OUT 
 
-LDR R1, R5, #-2			; load ascii offset into R1
+LDR R1, R5, #-1			; load ascii offset into R1
 ADD R0, R0, R1 			; convert to ascii to int
 
 ;; logic end 
 
-STR R0, R5, #1			; store R0 in int input
+STR R0, R5, #2			; store R0 in int input
 
 LDR R1, R6, #0
 ADD R6, R6, #1 			; pop R1
