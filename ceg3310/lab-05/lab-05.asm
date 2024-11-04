@@ -52,7 +52,7 @@ ADD R6, R6, #1 						; pop return value
 ADD R0, R4, #15
 ADD R0, R0, #15
 ADD R0, R0, #13
-PUTS							; print first part of response
+;PUTS							; print first part of response
 
 
 HALT
@@ -78,7 +78,6 @@ STR R5, R6, #0 ; push prev frame ptr
 ADD R5, R6, #0
 
 ADD R6, R6, #-1 ; push fibonacci input
-STR R0, R6, #0 
 
 ; BASE CASES
 ; checking n == 0
@@ -93,11 +92,19 @@ ADD R0, R0, #1
 
 ; GENERAL CASE
 ADD R0, R0, #-1
+STR R0, R6, #0
 JSR FIBONACCI
+LDR R1, R5, #-3
 
+ADD R0, R0, #-2
+STR R0, R6, #0
+JSR FIBONACCI
+LDR R2, R5, #-3
+
+ADD R0, R1, R2
 ; END CASE
 END_CASE
-;STR R0, R5, #2  ; store n in return value
+STR R0, R5, #2  ; store n in return value
 
 ADD R6, R6, #1  ; pop input 
 
