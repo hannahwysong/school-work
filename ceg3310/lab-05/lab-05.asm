@@ -77,24 +77,29 @@ ADD R6, R6, #-1
 STR R5, R6, #0 ; push prev frame ptr
 ADD R5, R6, #0
 
+ADD R6, R6, #-1 ; push fibonacci input
+STR R0, R6, #0 
+
 ; BASE CASES
 ; checking n == 0
-LDR R0, R5, #3
+
 ADD R0, R0, #1
 ADD R0, R0, #-1
 BRz END_CASE
 ; checking n == 1
-LDR R0, R5, #3
 ADD R0, R0, #-1 
 BRz END_CASE 
+ADD R0, R0, #1
 
 ; GENERAL CASE
-
+ADD R0, R0, #-1
 JSR FIBONACCI
 
 ; END CASE
 END_CASE
-STR R0, R5, #2  ; store n in return value
+;STR R0, R5, #2  ; store n in return value
+
+ADD R6, R6, #1  ; pop input 
 
 LDR R5, R6, #0			; restore prev frame pointer 
 ADD R6, R6, #1				
