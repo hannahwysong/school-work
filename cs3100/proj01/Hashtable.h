@@ -22,6 +22,14 @@
 /// a key/value but they have been removed from the table)
 enum class BucketType { NORMAL, ESS, EAR };
 
+struct HashTableNode {
+    string key;
+    int value;
+    HashTableNode* next;
+
+    HashTableNode(const std::string& k, int v) : key(k), value(v), next(nullptr) {}
+};
+
 /// all members of HashTableBucket are public to make it easy
 /// methods are defined in HashTable.cpp,
 /// they are already written for you
@@ -30,6 +38,7 @@ public:
     std::string key;
     int value;
     BucketType type;
+    HeadTableNode* head;
 
     HashTableBucket();
 
@@ -69,13 +78,11 @@ private:
     // you will need to declare any member variables for your hash table
     // you may also want a method for your chosen probe function
 
+    std::vector<HashTableBucket> table;
+    size_t tableSize;
+    size_t numElements;
 
-
-
-    // if using pseudo-random probing, you will need an offsets array
-    // I'm also providing a method to make the shuffled vector
-    // and a method to generate an offsets array
-    // std::vector<size_t> m_offsets;
+    size_t hash(const std::string& key) const;
     static std::vector<size_t> makeShuffledVector(size_t N);
 
     // you may want a private method to resize your table
@@ -110,5 +117,6 @@ public:
 };
 
 std::ostream& operator<<(std::ostream& os, const HashTable& hashTable);
+std::ostream& operator<<(std::ostream& os, std::pair<const HashTableBucket&, size_t> bucket);
 
 #endif //HASHTABLE_H

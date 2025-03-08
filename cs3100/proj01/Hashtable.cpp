@@ -3,7 +3,6 @@
  * CS 3100/5100
  */
 
-
 #include "HashTable.h"
 
 #include <chrono>
@@ -18,7 +17,16 @@ using namespace std;
 /// The "default" constructor uses our default capacity
 /// You can create a hashtable without passing any parameters
 /// @param size the initial capacity of the hash table
-HashTable::HashTable(size_t initCapacity) {
+HashTable::HashTable(size_t initCapacity) : tableSize(initCapacity), numElements(0){
+    table.resize(tableSize);
+}
+
+size_t HashTable::hash(const std::string& key) const {
+    size_t hashValue = 0;
+    for (char ch : key) {
+        hashValue = (hashValue) + ch;
+    }
+    return hashValue % tableSize;
 }
 
 /// insert(key, value)
@@ -28,6 +36,7 @@ HashTable::HashTable(size_t initCapacity) {
 /// @return if key is in the table, or if the table is full, return false
 /// otherwise return true
 bool HashTable::insert(const string& key, int value) {
+    size_t index = hash(key);
     return {};
 }
 
