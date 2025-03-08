@@ -1,0 +1,29 @@
+.ORIG x3000
+AND R1, R1, #0 
+AND R0, R0, #0
+AND R3, R3, #0
+
+
+LD R0, INTX
+LD R1 INTY
+NOT R1, R1 ; Ones Complement
+ADD R1, R1, #1 ; Twos Complement
+
+ADD R2, R1, R0 ; 
+; CC: T
+BRz TRUE
+
+ADD R3, R3, #-5
+BRn RETURN
+
+TRUE
+ADD R3, R3, #5
+BRp RETURN
+
+RETURN
+STI R3, RESULT
+HALT
+INTX .FILL #5
+INTY .FILL #5 
+RESULT .FILL x8002
+.END
