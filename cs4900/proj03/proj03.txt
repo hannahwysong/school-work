@@ -1,0 +1,17 @@
+Results
+Iterations: 2143
+N: 8572000
+Epsilon: 0.000001
+M Total: 6977600
+P Total: 4537204
+Final M Pi: 3.255996
+Final P Pi: 3.075727
+Time: 0.122984
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 1727541 on node node04 exited on signal 9 (Killed).
+--------------------------------------------------------------------------
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=95860.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

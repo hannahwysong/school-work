@@ -1,0 +1,8 @@
+The sum of the diagonal of the solution matrix is: -0.024666
+The sum of the rest of the elements of the solution matrix is: 0.024574
+The sum of the diagonal of the solution matrix is: 0.931996
+The sum of the rest of the elements of the solution matrix is: 117.773483
+The sum of the diagonal of the solution matrix is: -0.000296
+The sum of the rest of the elements of the solution matrix is: 1.654907
+The sum of the diagonal of the solution matrix is: 0.999342
+The sum of the rest of the elements of the solution matrix is: 2804.278076

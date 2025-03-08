@@ -1,0 +1,19 @@
+# cs4900-01
+# Project 02
+# Your Name proj02.sbatch
+# w Number
+# Due 30 Jan 2025, accepted  up to 10pm Jan 31
+# System = fry
+# Compiler syntax  = NA
+# Job Control File = proj02.sbatch
+# Results file     = proj02.txt
+Thu Jan 30 15:15:03 CST 2025
+001 001 001
+031 013 085
+023 100 033
+035 074 030
+058 109 061
+051 117 118
+064 128 100
+Thu Jan 30 17:06:30 CST 2025
+Job ran in 6,687 seconds

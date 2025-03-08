@@ -1,0 +1,12 @@
+proj01.sh 33 67 1 22
+sum=123.00      avg=30.75
+max=67.00       min=1.00
+proj01.sh 3 44 9 8
+sum=64.00       avg=16.00
+max=44.00       min=3.00
+proj01.sh -10 54 33 878 1
+sum=956.00      avg=191.20
+max=878.00      min=-10.00
+proj01.sh
+sum=0   avg=0
+max=0   min=0
