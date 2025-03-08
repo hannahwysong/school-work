@@ -37,7 +37,16 @@ size_t HashTable::hash(const std::string& key) const {
 /// otherwise return true
 bool HashTable::insert(const string& key, int value) {
     size_t index = hash(key);
-    return {};
+    int currValue;
+    if (table[index].search(key, currValue)) {
+    return false; // key already exists
+    }
+    table[index].load(key, value);
+    ++numElements;
+    if (static_cast<double>(numElements) / tableSize > 0.7) {
+        resizeTable(2.0);
+    }
+    return true;
 }
 
 /// remove(key)
@@ -46,16 +55,23 @@ bool HashTable::insert(const string& key, int value) {
 /// EAR (tombstone)
 /// @param key the key for the value to be removed
 /// @return true if the key was found and removed, otherwise false
-bool HashTable::remove(const string& key) {
-    return {};
+bool HashTable::remove(const std::string& key) {
+    size_t index = hash(key);
+    if (table[index].remove(key)) {
+        --numElements
+        return true;
+    }
+    return false;
 }
 
 /// contains(key)
 /// determines whether the key is in the table or not
 /// @param key the key to be searched for
 /// @return true if given key is in the table, otherwise false
-bool HashTable::contains(const string& key) const {
-    return {};
+bool HashTable::contains(const std::string& key) const {
+    size_t index = hash(key);
+    int value;
+   return table[index]search(key, value);
 }
 
 /// get(key)
@@ -64,7 +80,12 @@ bool HashTable::contains(const string& key) const {
 /// @return the value associated with the key, if the key is not
 /// in the table find returns nullopt
 optional<int> HashTable::get(const string& key) const {
-    return {};
+    size_t index = hash(key);
+    int value'
+    if (table[index].searcj(key, value)) {
+        return value;
+    }
+    return std::nullptr;
 }
 
 /// operator[key]
@@ -76,12 +97,12 @@ optional<int> HashTable::get(const string& key) const {
 /// @param key the key associated with the value to search for
 /// @return a reference to the value associated with the key
 /// if the key is not in the table, the behavior is undefined
-int& HashTable::operator[](const string& key) {
-    // DO NOT return a local variable, you want to return the value
-    // stored in the slot with the key argument
-    // this return is just here so the code will compile correctly
-    // you will eventually replace this
-    return placeholder;
+int& HashTable::operator[](const std::string& key) {
+    size_t index = hash(key);
+    if (!table[index].search(key, numElements)) {
+        insert(key, 0);
+    } 
+    return numElements;
 }
 
 /// keys()
@@ -89,7 +110,15 @@ int& HashTable::operator[](const string& key) {
 /// @return a vector of strings of all the keys
 ///  should all be just from NORMAL slots
 vector<string> HashTable::keys() const {
-    return {};
+    std::vector<std::string> keyList;
+    for (const auto& bucket : table) {
+        HashTableNode* current = bucket.head;
+        while (current) {
+            keyList.push_back(current->key);
+            current = current->next;
+        }
+    }
+    return keyList;
 }
 
 /// alpha()
@@ -97,14 +126,14 @@ vector<string> HashTable::keys() const {
 /// number of elements / table capacity
 /// @return the current alpha/load factor
 double HashTable::alpha() const {
-    return {};
+    return static_cast<double>(numElements) / tableSize;
 }
 
 /// capacity()
 /// how many buckets the table can currently hold
 /// @return the current capacity of the table
 size_t HashTable::capacity() const {
-    return {};
+    return tableSize;
 }
 
 /// size()
@@ -112,7 +141,7 @@ size_t HashTable::capacity() const {
 /// alternatively, how many buckets are NORMAL
 /// @return number of elements currently in the table
 size_t HashTable::size() const {
-    return {};
+    return numElements;
 }
 
 /// resizeTable(factor)
@@ -154,6 +183,9 @@ vector<size_t> HashTable::makeShuffledVector(size_t N) {
 /// @param hashTable the hash table to print
 /// @return reference to the ostream
 ostream& operator<<(ostream& os, const HashTable& hashTable) {
+    for (size_t i = 0; i < N -1; ++i) {
+        os << hashTable.table[i].toString(i) << std::endl;
+    }
     return os;
 }
 
