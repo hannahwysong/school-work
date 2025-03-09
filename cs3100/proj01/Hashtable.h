@@ -38,7 +38,7 @@ public:
     std::string key;
     int value;
     BucketType type;
-    HeadTableNode* head;
+    HashTableNode* head;
 
     HashTableBucket();
 
