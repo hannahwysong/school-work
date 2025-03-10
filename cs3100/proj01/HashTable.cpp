@@ -182,6 +182,12 @@ vector<size_t> HashTable::makeShuffledVector(size_t N) {
 /// @param hashTable the hash table to print
 /// @return reference to the ostream
 ostream& operator<<(ostream& os, const HashTable& hashTable) {
+    for (size_t i = 0; i < hashTable.size(); i++) {
+        const auto& bucket = ;
+        if (bucket.isNormal()) {
+            os << "Bucket " << i << ": " << bucket << endl; // Assuming bucket overloads << operator
+        }
+    }
     return os;
 }
 
