@@ -23,7 +23,7 @@
 enum class BucketType { NORMAL, ESS, EAR };
 
 struct HashTableNode {
-    string key;
+    std::string key;
     int value;
     HashTableNode* next;
 
