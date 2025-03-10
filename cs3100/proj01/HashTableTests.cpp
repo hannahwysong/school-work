@@ -20,6 +20,7 @@ const string evalName{""};
 #else
 #define OUTSTREAM cout
 #endif
+#include <optional>
 
 #define HT_PRINT(ht) OUTSTREAM << "HashTable contents" << endl; OUTSTREAM << "------------------" << endl; OUTSTREAM << ht1 << endl;
 
