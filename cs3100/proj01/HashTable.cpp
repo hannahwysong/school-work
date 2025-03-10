@@ -59,7 +59,7 @@ bool HashTable::remove(const std::string& key) {
     size_t index = hash(key);
     // this is wrong and needs edited 
     if (table[index].getKey() == key) {
-        --numElements
+        --numElements;
         return true;
     }
     return false;
@@ -180,9 +180,6 @@ vector<size_t> HashTable::makeShuffledVector(size_t N) {
 /// @param hashTable the hash table to print
 /// @return reference to the ostream
 ostream& operator<<(ostream& os, const HashTable& hashTable) {
-    for (size_t i = 0; i < N -1; ++i) {
-        os << hashTable.table[i].toString(i) << std::endl;
-    }
     return os;
 }
 

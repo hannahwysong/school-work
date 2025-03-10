@@ -66,7 +66,6 @@ public:
 
     bool isEmptyAfterRemoval() const;
 
-    bool search(const std::string& key, int& value);
 };
 
 // overloads for operator<< to print buckets using cout

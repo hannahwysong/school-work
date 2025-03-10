@@ -86,30 +86,30 @@ CMakeFiles/hashTableTests.dir/HashTableTests.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/hashTableTests.dir/HashTableTests.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/school-work/cs3100/proj01/HashTableTests.cpp -o CMakeFiles/hashTableTests.dir/HashTableTests.cpp.s
 
-CMakeFiles/hashTableTests.dir/Hashtable.cpp.o: CMakeFiles/hashTableTests.dir/flags.make
-CMakeFiles/hashTableTests.dir/Hashtable.cpp.o: /root/school-work/cs3100/proj01/Hashtable.cpp
-CMakeFiles/hashTableTests.dir/Hashtable.cpp.o: CMakeFiles/hashTableTests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/school-work/cs3100/proj01/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/hashTableTests.dir/Hashtable.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/hashTableTests.dir/Hashtable.cpp.o -MF CMakeFiles/hashTableTests.dir/Hashtable.cpp.o.d -o CMakeFiles/hashTableTests.dir/Hashtable.cpp.o -c /root/school-work/cs3100/proj01/Hashtable.cpp
+CMakeFiles/hashTableTests.dir/HashTable.cpp.o: CMakeFiles/hashTableTests.dir/flags.make
+CMakeFiles/hashTableTests.dir/HashTable.cpp.o: /root/school-work/cs3100/proj01/HashTable.cpp
+CMakeFiles/hashTableTests.dir/HashTable.cpp.o: CMakeFiles/hashTableTests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/school-work/cs3100/proj01/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/hashTableTests.dir/HashTable.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/hashTableTests.dir/HashTable.cpp.o -MF CMakeFiles/hashTableTests.dir/HashTable.cpp.o.d -o CMakeFiles/hashTableTests.dir/HashTable.cpp.o -c /root/school-work/cs3100/proj01/HashTable.cpp
 
-CMakeFiles/hashTableTests.dir/Hashtable.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/hashTableTests.dir/Hashtable.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/school-work/cs3100/proj01/Hashtable.cpp > CMakeFiles/hashTableTests.dir/Hashtable.cpp.i
+CMakeFiles/hashTableTests.dir/HashTable.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/hashTableTests.dir/HashTable.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/school-work/cs3100/proj01/HashTable.cpp > CMakeFiles/hashTableTests.dir/HashTable.cpp.i
 
-CMakeFiles/hashTableTests.dir/Hashtable.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/hashTableTests.dir/Hashtable.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/school-work/cs3100/proj01/Hashtable.cpp -o CMakeFiles/hashTableTests.dir/Hashtable.cpp.s
+CMakeFiles/hashTableTests.dir/HashTable.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/hashTableTests.dir/HashTable.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/school-work/cs3100/proj01/HashTable.cpp -o CMakeFiles/hashTableTests.dir/HashTable.cpp.s
 
 # Object files for target hashTableTests
 hashTableTests_OBJECTS = \
 "CMakeFiles/hashTableTests.dir/HashTableTests.cpp.o" \
-"CMakeFiles/hashTableTests.dir/Hashtable.cpp.o"
+"CMakeFiles/hashTableTests.dir/HashTable.cpp.o"
 
 # External object files for target hashTableTests
 hashTableTests_EXTERNAL_OBJECTS =
 
 hashTableTests: CMakeFiles/hashTableTests.dir/HashTableTests.cpp.o
-hashTableTests: CMakeFiles/hashTableTests.dir/Hashtable.cpp.o
+hashTableTests: CMakeFiles/hashTableTests.dir/HashTable.cpp.o
 hashTableTests: CMakeFiles/hashTableTests.dir/build.make
 hashTableTests: CMakeFiles/hashTableTests.dir/compiler_depend.ts
 hashTableTests: CMakeFiles/hashTableTests.dir/link.txt

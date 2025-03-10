@@ -129,6 +129,30 @@ hashTableTests/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/hashTableTests.dir/build.make CMakeFiles/hashTableTests.dir/build
 .PHONY : hashTableTests/fast
 
+HashTable.o: HashTable.cpp.o
+.PHONY : HashTable.o
+
+# target to build an object file
+HashTable.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hashTableTests.dir/build.make CMakeFiles/hashTableTests.dir/HashTable.cpp.o
+.PHONY : HashTable.cpp.o
+
+HashTable.i: HashTable.cpp.i
+.PHONY : HashTable.i
+
+# target to preprocess a source file
+HashTable.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hashTableTests.dir/build.make CMakeFiles/hashTableTests.dir/HashTable.cpp.i
+.PHONY : HashTable.cpp.i
+
+HashTable.s: HashTable.cpp.s
+.PHONY : HashTable.s
+
+# target to generate assembly for a file
+HashTable.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hashTableTests.dir/build.make CMakeFiles/hashTableTests.dir/HashTable.cpp.s
+.PHONY : HashTable.cpp.s
+
 HashTableTests.o: HashTableTests.cpp.o
 .PHONY : HashTableTests.o
 
@@ -153,30 +177,6 @@ HashTableTests.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/hashTableTests.dir/build.make CMakeFiles/hashTableTests.dir/HashTableTests.cpp.s
 .PHONY : HashTableTests.cpp.s
 
-Hashtable.o: Hashtable.cpp.o
-.PHONY : Hashtable.o
-
-# target to build an object file
-Hashtable.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hashTableTests.dir/build.make CMakeFiles/hashTableTests.dir/Hashtable.cpp.o
-.PHONY : Hashtable.cpp.o
-
-Hashtable.i: Hashtable.cpp.i
-.PHONY : Hashtable.i
-
-# target to preprocess a source file
-Hashtable.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hashTableTests.dir/build.make CMakeFiles/hashTableTests.dir/Hashtable.cpp.i
-.PHONY : Hashtable.cpp.i
-
-Hashtable.s: Hashtable.cpp.s
-.PHONY : Hashtable.s
-
-# target to generate assembly for a file
-Hashtable.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hashTableTests.dir/build.make CMakeFiles/hashTableTests.dir/Hashtable.cpp.s
-.PHONY : Hashtable.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -186,12 +186,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... hashTableTests"
+	@echo "... HashTable.o"
+	@echo "... HashTable.i"
+	@echo "... HashTable.s"
 	@echo "... HashTableTests.o"
 	@echo "... HashTableTests.i"
 	@echo "... HashTableTests.s"
-	@echo "... Hashtable.o"
-	@echo "... Hashtable.i"
-	@echo "... Hashtable.s"
 .PHONY : help
 
 
