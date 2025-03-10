@@ -11,7 +11,6 @@
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
 #include <functional>
-#include <optional>
 #include <string>
 #include <vector>
 

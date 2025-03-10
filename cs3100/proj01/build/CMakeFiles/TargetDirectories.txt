@@ -1,3 +1,0 @@
-/root/school-work/cs3100/proj01/build/CMakeFiles/hashTableTests.dir
-/root/school-work/cs3100/proj01/build/CMakeFiles/edit_cache.dir
-/root/school-work/cs3100/proj01/build/CMakeFiles/rebuild_cache.dir

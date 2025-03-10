@@ -10,6 +10,7 @@
 #include <random>
 #include <utility>
 #include <sstream>
+#include <optional>
 
 using namespace std;
 // HashTable methods
