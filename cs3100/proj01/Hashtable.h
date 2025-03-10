@@ -23,7 +23,7 @@
 enum class BucketType { NORMAL, ESS, EAR };
 
 struct HashTableNode {
-    string key;
+    std::string key;
     int value;
     HashTableNode* next;
 
@@ -38,7 +38,7 @@ public:
     std::string key;
     int value;
     BucketType type;
-    HeadTableNode* head;
+    HashTableNode* head;
 
     HashTableBucket();
 
@@ -65,6 +65,7 @@ public:
     bool isEmptySinceStart() const;
 
     bool isEmptyAfterRemoval() const;
+
 };
 
 // overloads for operator<< to print buckets using cout
