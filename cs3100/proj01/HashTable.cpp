@@ -99,7 +99,9 @@ int& HashTable::operator[](const std::string& key) {
     if (table[index].getKey() != key) {
         insert(key, 0);
     } 
-    return table[index].getValue();
+    int value = table[index].getValue();
+    int& val = value;
+    return val;
 }
 
 /// keys()
