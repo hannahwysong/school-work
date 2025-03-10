@@ -4,4 +4,4 @@ project(hashtable)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(hashTableTests HashTableTests.cpp
-        HashTable.cpp)
+        HashTable.cpp HashTable.h)
