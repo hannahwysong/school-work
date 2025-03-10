@@ -59,6 +59,7 @@ bool HashTable::remove(const std::string& key) {
     size_t index = hash(key);
     // this is wrong and needs edited 
     if (table[index].getKey() == key) {
+        table[index].kill();
         --numElements;
         return true;
     }
@@ -71,7 +72,7 @@ bool HashTable::remove(const std::string& key) {
 /// @return true if given key is in the table, otherwise false
 bool HashTable::contains(const std::string& key) const {
     size_t index = hash(key);
-    return table[index].getValue();
+    return table[index].isNormal() && table[index].getKey() == key;
 }
 
 /// get(key)
@@ -81,8 +82,9 @@ bool HashTable::contains(const std::string& key) const {
 /// in the table find returns nullopt
 optional<int> HashTable::get(const string& key) const {
     size_t index = hash(key);
-    int value = table[index].getValue();
-    return value;
+    if (table[index].isNormal() && table[index].getKey() == key) {
+        return table[index].getValue(); // Return the value if found
+    }
 }
 
 /// operator[key]
@@ -96,12 +98,10 @@ optional<int> HashTable::get(const string& key) const {
 /// if the key is not in the table, the behavior is undefined
 int& HashTable::operator[](const std::string& key) {
     size_t index = hash(key);
-    if (table[index].getKey() != key) {
+    if (!table[index].isNormal() || table[index].getKey() != key) {
         insert(key, 0);
-    } 
-    int value = table[index].getValue();
-    int& val = value;
-    return val;
+    }
+    return HashTable.table[index].getValue();
 }
 
 /// keys()
@@ -183,7 +183,7 @@ vector<size_t> HashTable::makeShuffledVector(size_t N) {
 /// @return reference to the ostream
 ostream& operator<<(ostream& os, const HashTable& hashTable) {
     for (size_t i = 0; i < hashTable.size(); i++) {
-        const auto& bucket = table[i];
+        const auto& bucket = HashTable.table[i];
         if (bucket.isNormal()) {
             os << "Bucket " << i << ": " << bucket << endl; // Assuming bucket overloads << operator
         }
