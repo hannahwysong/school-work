@@ -38,7 +38,7 @@ size_t HashTable::hash(const std::string& key) const {
 bool HashTable::insert(const string& key, int value) {
     size_t index = hash(key);
     int currValue;
-    if (table[index].search(key, currValue)) {
+    if (table[index].getValue() == currValue) {
     return false; // key already exists
     }
     table[index].load(key, value);
@@ -57,7 +57,8 @@ bool HashTable::insert(const string& key, int value) {
 /// @return true if the key was found and removed, otherwise false
 bool HashTable::remove(const std::string& key) {
     size_t index = hash(key);
-    if (table[index].remove(key)) {
+    // this is wrong and needs edited 
+    if (table[index].getKey() == key) {
         --numElements
         return true;
     }
@@ -70,8 +71,7 @@ bool HashTable::remove(const std::string& key) {
 /// @return true if given key is in the table, otherwise false
 bool HashTable::contains(const std::string& key) const {
     size_t index = hash(key);
-    int value;
-   return table[index]search(key, value);
+    return table[index].getValue();
 }
 
 /// get(key)
@@ -81,11 +81,8 @@ bool HashTable::contains(const std::string& key) const {
 /// in the table find returns nullopt
 optional<int> HashTable::get(const string& key) const {
     size_t index = hash(key);
-    int value'
-    if (table[index].searcj(key, value)) {
-        return value;
-    }
-    return std::nullptr;
+    int value = table[index].getValue();
+    return value;
 }
 
 /// operator[key]
@@ -99,7 +96,7 @@ optional<int> HashTable::get(const string& key) const {
 /// if the key is not in the table, the behavior is undefined
 int& HashTable::operator[](const std::string& key) {
     size_t index = hash(key);
-    if (!table[index].search(key, numElements)) {
+    if (table[index].getKey() != key) {
         insert(key, 0);
     } 
     return numElements;
