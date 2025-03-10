@@ -101,7 +101,9 @@ int& HashTable::operator[](const std::string& key) {
     if (!table[index].isNormal() || table[index].getKey() != key) {
         insert(key, 0);
     }
-    return HashTable.table[index].getValue();
+    int value = table[index].getValue();
+    int& val = value;
+    return val;
 }
 
 /// keys()
@@ -182,10 +184,10 @@ vector<size_t> HashTable::makeShuffledVector(size_t N) {
 /// @param hashTable the hash table to print
 /// @return reference to the ostream
 ostream& operator<<(ostream& os, const HashTable& hashTable) {
-    for (size_t i = 0; i < hashTable.size(); i++) {
-        const auto& bucket = HashTable.table[i];
-        if (bucket.isNormal()) {
-            os << "Bucket " << i << ": " << bucket << endl; // Assuming bucket overloads << operator
+    for (size_t i = 0; i < hashTable.capacity(); i++) {
+        const auto& bucket = hashTable.table[i]; // Access the bucket from the instance, not class
+        if (bucket.isNormal()) {  // Only print normal (occupied) buckets
+            os << "Bucket " << i << ": " << bucket << endl; // Print the bucket and its contents
         }
     }
     return os;
