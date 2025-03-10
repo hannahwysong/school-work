@@ -38,8 +38,7 @@ size_t HashTable::hash(const std::string& key) const {
 /// otherwise return true
 bool HashTable::insert(const string& key, int value) {
     size_t index = hash(key);
-    int currValue;
-    if (table[index].getValue() == currValue) {
+    if (table[index].getValue() == value) {
     return false; // key already exists
     }
     table[index].load(key, value);
