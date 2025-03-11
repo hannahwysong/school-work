@@ -23,11 +23,15 @@
  }
  
  size_t HashTable::hash(const string& key) const {
-     size_t hashValue = 0;
-     for (char ch : key) {
-         hashValue = (hashValue) + ch;
-     }
-     return hashValue % tableSize;
+    unsigned int a    = 63689;
+    unsigned int hash = 0;
+
+    for(std::size_t i = 0; i < key.length(); i++)
+    {
+        hash = hash + key[i];
+    }
+
+    return (hash);
  }
  
  /// insert(key, value)
@@ -37,16 +41,25 @@
  /// @return if key is in the table, or if the table is full, return false
  /// otherwise return true
  bool HashTable::insert(const string& key, int value) {
-     size_t index = hash(key);
-     if (table[index].getValue() == value) {
-     return false; // key already exists
-     }
-     table[index].load(key, value);
-     ++numElements;
-     if (static_cast<double>(numElements) / tableSize > 0.7) {
-         resizeTable(2.0);
-     }
-     return true;
+    if (numElements >= tableSize) {
+        return false;  
+    }
+
+    size_t index = hash(key);
+    HashTableNode* current = table[index].head;
+
+    while (current != nullptr) {
+        if (current->key == key) {
+            current->value = value; 
+            return true;
+        }
+        current = current->next;
+    }
+
+    table[index].load(key, value);
+    ++numElements; 
+
+    return true;
  }
  
  /// remove(key)
@@ -121,13 +134,11 @@
  /// if the key is not in the table, the behavior is undefined
  int& HashTable::operator[](const string& key) {
      size_t index = hash(key);
-     int value;
+     int value = table[index].getValue();
      int& ref = value;
-     if (!table[index].isNormal() || table[index].getKey() != key) {
-         insert(key, 0);
-     } 
-     value = table[index].getValue();
-     return value;
+     if (!table[index].isNormal() || table[index].getKey() != key) { 
+        return ref;
+     }
  }
  
  /// keys()
