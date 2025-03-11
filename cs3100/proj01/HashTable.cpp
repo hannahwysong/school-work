@@ -63,20 +63,18 @@
     while (current != nullptr) {
         if (current->key == key) {
             if (prev == nullptr) {
-                // Removing the first node in the chain
                 table[index].head = current->next;
             } else {
-                // Removing a middle or last node in the chain
                 prev->next = current->next;
             }
-            delete current; // Don't forget to delete the node to avoid memory leaks
+            delete current;
             --numElements;
             return true;
         }
         prev = current;
         current = current->next;
     }
-    return false; // Key not found
+    return false;
  }
  
  /// contains(key)
@@ -84,9 +82,16 @@
  /// @param key the key to be searched for
  /// @return true if given key is in the table, otherwise false
  bool HashTable::contains(const string& key) const {
-     size_t index = hash(key);
-     return table[index].isNormal() && table[index].getKey() == key;
- }
+    size_t index = hash(key);
+    HashTableNode* current = table[index].head;
+
+    while (current != nullptr) {
+        if (current->key == key) {
+            return true;
+            }
+        }
+    return false;
+}
  
  /// get(key)
  /// searches for the value associated with the given key
