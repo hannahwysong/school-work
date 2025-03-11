@@ -104,10 +104,10 @@
 
     while (current != nullptr) {
         if (current->key == key) {
-            return current->getValue();
+            return 0;
             }
         }
-    return false;
+    return nullopt;
  }
  
  /// operator[key]
