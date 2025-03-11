@@ -45,6 +45,8 @@ public:
 
     void load(const std::string& k, int v);
 
+    bool remove(const std::string& key);
+
     void kill();
 
     std::string getKey() const;
@@ -83,14 +85,12 @@ private:
     size_t numElements;
 
     size_t hash(const std::string& key) const;
-    static std::vector<size_t> makeShuffledVector(size_t N);
 
     // you may want a private method to resize your table
     void resizeTable(double resizeFactor = 2.0);
 
     // you can eventually remove this if you want, it is
     // temporarily here so operator[] will "work"
-    int placeholder;
 public:
     // don't change this, this is required for the assignment
     static constexpr size_t DEFAULT_INITIAL_CAPACITY = 8;
