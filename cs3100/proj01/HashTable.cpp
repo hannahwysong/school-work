@@ -99,10 +99,15 @@
  /// @return the value associated with the key, if the key is not
  /// in the table find returns nullopt
  optional<int> HashTable::get(const string& key) const {
-     size_t index = hash(key);
-     if (table[index].isNormal() && table[index].getKey() == key) {
-         return table[index].getValue(); // Return the value if found
-     }
+    size_t index = hash(key);
+    HashTableNode* current = table[index].head;
+
+    while (current != nullptr) {
+        if (current->key == key) {
+            return current->getValue();
+            }
+        }
+    return false;
  }
  
  /// operator[key]

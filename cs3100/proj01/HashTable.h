@@ -21,12 +21,13 @@
 /// a key/value but they have been removed from the table)
 enum class BucketType { NORMAL, ESS, EAR };
 
-struct HashTableNode {
-    std::string key;
-    int value;
-    HashTableNode* next;
+class HashTableNode {
+    public:
+        std::string key;
+        int value;
+        HashTableNode* next;
 
-    HashTableNode(const std::string& k, int v) : key(k), value(v), next(nullptr) {}
+        HashTableNode(const std::string& k, int v) : key(k), value(v), next(nullptr) {}
 };
 
 /// all members of HashTableBucket are public to make it easy
