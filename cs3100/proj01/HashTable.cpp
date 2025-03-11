@@ -56,14 +56,27 @@
  /// @param key the key for the value to be removed
  /// @return true if the key was found and removed, otherwise false
  bool HashTable::remove(const string& key) {
-     size_t index = hash(key);
-     // this is wrong and needs edited 
-     if (table[index].getKey() == key) {
-         table[index].kill();
-         --numElements;
-         return true;
-     }
-     return false;
+    size_t index = hash(key);
+    HashTableNode* current = table[index].head;
+    HashTableNode* prev = nullptr;
+
+    while (current != nullptr) {
+        if (current->key == key) {
+            if (prev == nullptr) {
+                // Removing the first node in the chain
+                table[index].head = current->next;
+            } else {
+                // Removing a middle or last node in the chain
+                prev->next = current->next;
+            }
+            delete current; // Don't forget to delete the node to avoid memory leaks
+            --numElements;
+            return true;
+        }
+        prev = current;
+        current = current->next;
+    }
+    return false; // Key not found
  }
  
  /// contains(key)
