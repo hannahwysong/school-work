@@ -81,7 +81,6 @@ private:
     // you will need to declare any member variables for your hash table
     // you may also want a method for your chosen probe function
 
-    std::vector<HashTableBucket> table;
     size_t tableSize;
     size_t numElements;
 
@@ -90,9 +89,14 @@ private:
     // you may want a private method to resize your table
     void resizeTable(double resizeFactor = 2.0);
 
+    std::vector<size_t> makeShuffledVector(size_t N);
+
     // you can eventually remove this if you want, it is
     // temporarily here so operator[] will "work"
 public:
+
+    std::vector<HashTableBucket> table;
+
     // don't change this, this is required for the assignment
     static constexpr size_t DEFAULT_INITIAL_CAPACITY = 8;
 

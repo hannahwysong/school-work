@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
         bool result;
         size_t index = 1;
 
-        if (!ht1.capacity() == MAXHASH) {
+        if (ht1.capacity() != MAXHASH) {
             OUTSTREAM << "Initial capacity incorrect" << endl;
         }
 

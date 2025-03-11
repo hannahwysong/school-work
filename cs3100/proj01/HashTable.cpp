@@ -183,19 +183,19 @@
  /// makeShuffledVector takes care of that for us
  /// @return vector of length N - 1 that has values 1 to N - 1 shuffled
  vector<size_t> HashTable::makeShuffledVector(size_t N) {
-     vector<size_t> arrayShuffle(N - 1);
- 
-     iota(arrayShuffle.begin(), arrayShuffle.end(), 1);
- 
-     // obtain a time-based seed for the shuffle
-     auto seed = static_cast<unsigned int>(chrono::system_clock::now().time_since_epoch().count());
-     // seed = 0; // for testing you can comment th is out so the shuffled array is always shuffled the same
- 
-     // vector will be shuffled in-place
-     shuffle(arrayShuffle.begin(), arrayShuffle.end(), default_random_engine(seed));
- 
-     return arrayShuffle;
- }
+    vector<size_t> arrayShuffle(N - 1);
+
+    iota(arrayShuffle.begin(), arrayShuffle.end(), 1);
+
+    // obtain a time-based seed for the shuffle
+    auto seed = static_cast<unsigned int>(chrono::system_clock::now().time_since_epoch().count());
+    // seed = 0; // for testing you can comment th is out so the shuffled array is always shuffled the same
+
+    // vector will be shuffled in-place
+    shuffle(arrayShuffle.begin(), arrayShuffle.end(), default_random_engine(seed));
+
+    return arrayShuffle;
+}
  
  /// opeartor<<(ostream, HashTable)
  /// overload of << to output to stream
@@ -211,7 +211,7 @@
      for (size_t i = 0; i < hashTable.size(); i++) {
          const auto& bucket = hashTable.table[i];
          if (bucket.isNormal()) {
-             os << "Bucket " << i << ": " << bucket << endl; // Assuming bucket overloads << operator
+             os << "Bucket " << i << ": " << bucket.toString() << endl; // Assuming bucket overloads << operator
          }
      }
      return os;
