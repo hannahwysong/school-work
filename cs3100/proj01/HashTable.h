@@ -25,6 +25,7 @@ struct HashTableNode {
         std::string key;
         int value;
         HashTableNode* next;
+        BucketType type;
 
         HashTableNode(const std::string& k, int v) : key(k), value(v), next(nullptr) {}
 };
