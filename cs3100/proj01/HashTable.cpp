@@ -12,6 +12,7 @@
  #include <utility>
  #include <sstream>
  #include <optional>
+#include <iostream>
  
  using namespace std;
  // HashTable methods
@@ -142,9 +143,6 @@
         return *value;
     }
     
-    // Insert a default value when the key is not found
-    insert(key, 0);  // You can insert a default value like 0 or another value.
-    
     // Retrieve the inserted value
     value = get(key);  
     return *value;
@@ -231,6 +229,25 @@
  
      return arrayShuffle;
  }
+
+ void HashTable::printLists() const {
+    for (size_t i = 0; i < tableSize; ++i) {
+        const auto& bucket = table[i];
+        cout << "Bucket " << i << ": " << bucket << endl;
+
+        if (bucket.head == nullptr) {
+            cout << "[empty]" << endl;
+        } else {
+            HashTableNode* current = bucket.head;
+            while (current != nullptr) {
+                cout << "<" << current->key << ", " << current->value << "> ";
+                current = current->next;
+            }
+            cout << endl;
+        }
+    }
+}
+
  
  /// opeartor<<(ostream, HashTable)
  /// overload of << to output to stream
@@ -243,10 +260,7 @@
  /// @param hashTable the hash table to print
  /// @return reference to the ostream
  ostream& operator<<(ostream& os, const HashTable& hashTable) {
-     for (size_t i = 0; i < hashTable.size(); i++) {
-        const auto& bucket = hashTable.table[i];
-        os << "Bucket " << i << ": " << bucket.toString() << endl; 
-     }
+     hashTable.printLists();
      return os;
  }
  

@@ -91,6 +91,8 @@ public:
 
     std::vector<HashTableBucket> table;
 
+    void printLists() const;
+
     // don't change this, this is required for the assignment
     static constexpr size_t DEFAULT_INITIAL_CAPACITY = 8;
 
