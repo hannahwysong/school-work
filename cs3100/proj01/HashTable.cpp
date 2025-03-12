@@ -3,6 +3,7 @@
  * CS 3100/5100
  */
 
+
  #include "HashTable.h"
 
  #include <chrono>
@@ -23,15 +24,11 @@
  }
  
  size_t HashTable::hash(const string& key) const {
-    unsigned int a    = 63689;
-    unsigned int hash = 0;
-
-    for(std::size_t i = 0; i < key.length(); i++)
-    {
-        hash = hash + key[i];
-    }
-
-    return (hash);
+     size_t hashValue = 0;
+     for (char ch : key) {
+         hashValue = (hashValue) + ch;
+     }
+     return hashValue % tableSize;
  }
  
  /// insert(key, value)
@@ -41,25 +38,16 @@
  /// @return if key is in the table, or if the table is full, return false
  /// otherwise return true
  bool HashTable::insert(const string& key, int value) {
-    if (numElements >= tableSize) {
-        return false;  
-    }
-
-    size_t index = hash(key);
-    HashTableNode* current = table[index].head;
-
-    while (current != nullptr) {
-        if (current->key == key) {
-            current->value = value; 
-            return true;
-        }
-        current = current->next;
-    }
-
-    table[index].load(key, value);
-    ++numElements; 
-
-    return true;
+     size_t index = hash(key);
+     if (table[index].getValue() == value) {
+     return false; // key already exists
+     }
+     table[index].load(key, value);
+     ++numElements;
+     if (static_cast<double>(numElements) / tableSize > 0.7) {
+         resizeTable(2.0);
+     }
+     return true;
  }
  
  /// remove(key)
@@ -134,11 +122,13 @@
  /// if the key is not in the table, the behavior is undefined
  int& HashTable::operator[](const string& key) {
      size_t index = hash(key);
-     int value = table[index].getValue();
+     int value;
      int& ref = value;
-     if (!table[index].isNormal() || table[index].getKey() != key) { 
-        return ref;
-     }
+     if (!table[index].isNormal() || table[index].getKey() != key) {
+         insert(key, 0);
+     } 
+     value = table[index].getValue();
+     return value;
  }
  
  /// keys()
@@ -194,19 +184,19 @@
  /// makeShuffledVector takes care of that for us
  /// @return vector of length N - 1 that has values 1 to N - 1 shuffled
  vector<size_t> HashTable::makeShuffledVector(size_t N) {
-    vector<size_t> arrayShuffle(N - 1);
-
-    iota(arrayShuffle.begin(), arrayShuffle.end(), 1);
-
-    // obtain a time-based seed for the shuffle
-    auto seed = static_cast<unsigned int>(chrono::system_clock::now().time_since_epoch().count());
-    // seed = 0; // for testing you can comment th is out so the shuffled array is always shuffled the same
-
-    // vector will be shuffled in-place
-    shuffle(arrayShuffle.begin(), arrayShuffle.end(), default_random_engine(seed));
-
-    return arrayShuffle;
-}
+     vector<size_t> arrayShuffle(N - 1);
+ 
+     iota(arrayShuffle.begin(), arrayShuffle.end(), 1);
+ 
+     // obtain a time-based seed for the shuffle
+     auto seed = static_cast<unsigned int>(chrono::system_clock::now().time_since_epoch().count());
+     // seed = 0; // for testing you can comment th is out so the shuffled array is always shuffled the same
+ 
+     // vector will be shuffled in-place
+     shuffle(arrayShuffle.begin(), arrayShuffle.end(), default_random_engine(seed));
+ 
+     return arrayShuffle;
+ }
  
  /// opeartor<<(ostream, HashTable)
  /// overload of << to output to stream
@@ -222,7 +212,7 @@
      for (size_t i = 0; i < hashTable.size(); i++) {
          const auto& bucket = hashTable.table[i];
          if (bucket.isNormal()) {
-             os << "Bucket " << i << ": " << bucket.toString() << endl; // Assuming bucket overloads << operator
+             os << "Bucket " << i << ": " << bucket << endl; // Assuming bucket overloads << operator
          }
      }
      return os;
