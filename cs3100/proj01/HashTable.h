@@ -21,7 +21,8 @@
 /// a key/value but they have been removed from the table)
 enum class BucketType { NORMAL, ESS, EAR };
 
-struct HashTableNode {
+class HashTableNode {
+    public:
         std::string key;
         int value;
         HashTableNode* next;
