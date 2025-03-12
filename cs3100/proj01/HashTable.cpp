@@ -37,34 +37,27 @@
  /// otherwise return true
  bool HashTable::insert(const string& key, int value) {
     size_t index = hash(key);
+    HashTableNode* current = table[index].head;
 
-    // Traverse the linked list at the calculated index
-    HashTableBucket& bucket = table[index];
-    
-    // Check if the key already exists
-    HashTableNode* current = bucket.head;
+    // Check if the key already exists in the linked list
     while (current != nullptr) {
         if (current->key == key) {
-            return false;  // Key already exists, don't insert
+            return false; // Key already exists, no need to insert
         }
         current = current->next;
     }
 
-    // Insert the new node at the head of the list
-    HashTableNode* newNode = new HashTableNode(key, value);
-    newNode->next = bucket.head;
-    bucket.head = newNode;
-    
-    // Increment the number of elements
-    numElements++;
+    // If key doesn't exist, insert the key-value pair at the beginning of the list
+    table[index].load(key, value);
+    ++numElements;
 
-    // Check if resizing is necessary
-    if (alpha() > 0.5) {
+    // Resize the table if the load factor exceeds the threshold
+    if (static_cast<double>(numElements) / tableSize > 0.7) {
         resizeTable(2.0);
     }
 
     return true;
- }
+}
  
  /// remove(key)
  /// the key and value are "deleted" from the table
@@ -75,18 +68,14 @@
  bool HashTable::remove(const string& key) {
     size_t index = hash(key);
     HashTableBucket& bucket = table[index];
-    
+
     HashTableNode* current = bucket.head;
     HashTableNode* previous = nullptr;
 
     while (current != nullptr) {
         if (current->key == key) {
-            if (previous == nullptr) {
-                bucket.head = current->next;
-            } else {
-                previous->next = current->next;
-            }
-            delete current;
+            // Mark the bucket as EAR (tombstone)
+            bucket.kill();
             numElements--;
             return true;
         }
@@ -105,10 +94,11 @@
     HashTableNode* current = table[index].head;
 
     while (current != nullptr) {
-        if (current->key == key) {
-            return true;
-            }
+        if (current->key == key && current->type != BucketType::EAR) {
+            return true;  // Found the key and it's not marked as a tombstone
         }
+        current = current->next;
+    }
     return false;
 }
  
@@ -120,11 +110,11 @@
  optional<int> HashTable::get(const string& key) const {
     size_t index = hash(key);
     const HashTableBucket& bucket = table[index];
-    
+
     HashTableNode* current = bucket.head;
     while (current != nullptr) {
-        if (current->key == key) {
-            return current->value;
+        if (current->key == key && current->type != BucketType::EAR) {
+            return current->value;  // Return value if not a tombstone
         }
         current = current->next;
     }
@@ -156,11 +146,10 @@
  ///  should all be just from NORMAL slots
  vector<string> HashTable::keys() const {
      std::vector<std::string> keyList;
-     for (const auto& bucket : table) {
-         HashTableNode* current = bucket.head;
-         while (current) {
-             keyList.push_back(current->key);
-             current = current->next;
+     for (size_t i = 0; i < tableSize; ++i) {
+         const auto& bucket = table[i];
+         if (bucket.isNormal()) {
+             keyList.push_back(bucket.getKey());
          }
      }
      return keyList;
@@ -195,23 +184,22 @@
  /// all the elements remain in the table, and will need to be re-hashed based on the new capacity
  /// @param resizeFactor how much to resize the table by
  void HashTable::resizeTable(double resizeFactor) {
-    size_t newCapacity = table.size() * resizeFactor;
-    std::vector<HashTableBucket> newTable(newCapacity);
+    size_t newCapacity = static_cast<size_t>(tableSize * resizeFactor);
+    vector<HashTableBucket> newTable(newCapacity);
 
-    for (size_t i = 0; i < table.size(); ++i) {
+    // Rehash all the keys and insert them into the new table
+    for (size_t i = 0; i < tableSize; ++i) {
         HashTableBucket& bucket = table[i];
         HashTableNode* current = bucket.head;
         while (current != nullptr) {
-            size_t newIndex = std::hash<std::string>{}(current->key) % newCapacity;
-            HashTableBucket& newBucket = newTable[newIndex];
-            HashTableNode* newNode = new HashTableNode(current->key, current->value);
-            newNode->next = newBucket.head;
-            newBucket.head = newNode;
+            size_t newIndex = hash(current->key) % newCapacity;
+            newTable[newIndex].load(current->key, current->value);
             current = current->next;
         }
     }
 
-    table = move(newTable);
+    table = std::move(newTable);
+    tableSize = newCapacity;
  }
  
  /// makeShuffledVector is provided for you
@@ -248,7 +236,7 @@
      for (size_t i = 0; i < hashTable.size(); i++) {
          const auto& bucket = hashTable.table[i];
          if (bucket.isNormal()) {
-             os << "Bucket " << i << ": " << bucket << endl; 
+             os << "Bucket " << i << ": " << bucket.toString() << endl; 
          }
      }
      return os;
@@ -272,7 +260,7 @@
  /// @param k the lookup key for the bucket
  /// @param v the value associated with the key
  HashTableBucket::HashTableBucket(const string& k,
-                                  int v) : key(move(k)),
+                                  int v) : key(std::move(k)),
                                            value(v),
                                            type(BucketType::NORMAL) {
  }
@@ -284,7 +272,7 @@
  /// @param k new key
  /// @param v new value
  void HashTableBucket::load(const string& k, int v) {
-     key = move(k);
+     key = std::move(k);
      value = v;
      type = BucketType::NORMAL;
  }
