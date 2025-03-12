@@ -81,6 +81,7 @@ private:
 
     size_t tableSize;
     size_t numElements;
+    
 
     size_t hash(const std::string& key) const;
 

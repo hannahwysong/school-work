@@ -23,8 +23,10 @@
  HashTable::HashTable(size_t initCapacity) : tableSize(initCapacity), numElements(0){
      table.resize(tableSize);
  }
- //hash(key)
- //
+ /// hash(key)
+ /// 
+ /// @param key the key which is used to determine where in the table the value is stored
+ /// @return 
  size_t HashTable::hash(const std::string& key) const {
     size_t hashValue = std::hash<std::string>{}(key);
     return hashValue % table.size(); 
