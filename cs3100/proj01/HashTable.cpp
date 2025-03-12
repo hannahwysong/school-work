@@ -233,14 +233,17 @@
  void HashTable::printLists() const {
     for (size_t i = 0; i < tableSize; ++i) {
         const auto& bucket = table[i];
-        cout << "Bucket " << i << ": " << bucket << endl;
+        cout << "Bucket " << i << ": ";
 
         if (bucket.head == nullptr) {
             cout << "[empty]" << endl;
         } else {
             HashTableNode* current = bucket.head;
             while (current != nullptr) {
-                cout << "<" << current->key << ", " << current->value << "> ";
+                // Ensure valid data before printing
+                if (current->key != "" && current->value != 0) {
+                    cout << "<" << current->key << ", " << current->value << "> ";
+                }
                 current = current->next;
             }
             cout << endl;
