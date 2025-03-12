@@ -24,9 +24,11 @@
      table.resize(tableSize);
  }
  /// hash(key)
- /// 
+ /// A "default" hash function provided by the C++ library.
+ /// It provides a way to hash objects of the string type.
+ /// The resulting hash value is used to index into the hash table.
  /// @param key the key which is used to determine where in the table the value is stored
- /// @return 
+ /// @return the hashed string value
  size_t HashTable::hash(const std::string& key) const {
     size_t hashValue = std::hash<std::string>{}(key);
     return hashValue % table.size(); 
@@ -214,14 +216,14 @@
      shuffle(arrayShuffle.begin(), arrayShuffle.end(), default_random_engine(seed));
      return arrayShuffle;
  }
-
+ /// printLists()
+ /// Prints the contents of each bucket.
+ /// Does not print the bucket if the bucket is empty.
  void HashTable::printLists() const {
     for (size_t i = 0; i < tableSize; ++i) {
         const auto& bucket = table[i];
-        cout << "Bucket " << i << ": ";
-        if (bucket.head == nullptr) {
-            cout << "[empty]" << endl;
-        } else {
+        if (bucket.head != nullptr) {
+            cout << "Bucket " << i << ": ";
             HashTableNode* current = bucket.head;
             while (current != nullptr) {
                 if (current->key != "" && current->value != 0) {
