@@ -71,7 +71,6 @@
             } else {
                 bucket.head = current->next;
             }
-
             delete current; 
             bucket.kill();
             --numElements;
@@ -131,6 +130,8 @@
     if (value) {
         return *value;
     }
+    int index = hash(key);
+    return table[index].value; 
  }
  
  /// keys()
@@ -139,7 +140,6 @@
  ///  should all be just from NORMAL slots
  vector<string> HashTable::keys() const {
      std::vector<std::string> keyList;
-
      for (size_t i = 0; i < tableSize; ++i) {
          const auto& bucket = table[i];
          if (bucket.isNormal()) {
