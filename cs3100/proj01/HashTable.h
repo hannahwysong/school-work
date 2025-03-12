@@ -75,23 +75,17 @@ std::ostream& operator<<(std::ostream& os,  std::pair<const HashTableBucket&,  s
 
 class HashTable {
 private:
-
-    // TODO: after you decide if you are doing chaining or a probing method
-    // you will need to declare any member variables for your hash table
-    // you may also want a method for your chosen probe function
+    // chaining method
 
     size_t tableSize;
     size_t numElements;
 
     size_t hash(const std::string& key) const;
 
-    // you may want a private method to resize your table
     void resizeTable(double resizeFactor = 2.0);
 
     std::vector<size_t> makeShuffledVector(size_t N);
 
-    // you can eventually remove this if you want, it is
-    // temporarily here so operator[] will "work"
 public:
 
     std::vector<HashTableBucket> table;

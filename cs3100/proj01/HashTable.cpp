@@ -23,13 +23,11 @@
      table.resize(tableSize);
  }
  
- size_t HashTable::hash(const string& key) const {
-     size_t hashValue = 0;
-     for (char ch : key) {
-         hashValue = (hashValue) + ch;
-     }
-     return hashValue % tableSize;
- }
+ size_t HashTable::hash(const std::string& key) const {
+    // hash function : std::hash
+    size_t hashValue = std::hash<std::string>{}(key);
+    return hashValue % table.size(); 
+}
  
  /// insert(key, value)
  /// insert the key value pair into the table
@@ -38,16 +36,34 @@
  /// @return if key is in the table, or if the table is full, return false
  /// otherwise return true
  bool HashTable::insert(const string& key, int value) {
-     size_t index = hash(key);
-     if (table[index].getValue() == value) {
-     return false; // key already exists
-     }
-     table[index].load(key, value);
-     ++numElements;
-     if (static_cast<double>(numElements) / tableSize > 0.7) {
-         resizeTable(2.0);
-     }
-     return true;
+    size_t index = hash(key);
+
+    // Traverse the linked list at the calculated index
+    HashTableBucket& bucket = table[index];
+    
+    // Check if the key already exists
+    HashTableNode* current = bucket.head;
+    while (current != nullptr) {
+        if (current->key == key) {
+            return false;  // Key already exists, don't insert
+        }
+        current = current->next;
+    }
+
+    // Insert the new node at the head of the list
+    HashTableNode* newNode = new HashTableNode(key, value);
+    newNode->next = bucket.head;
+    bucket.head = newNode;
+    
+    // Increment the number of elements
+    numElements++;
+
+    // Check if resizing is necessary
+    if (alpha() > 0.5) {
+        resizeTable(2.0);
+    }
+
+    return true;
  }
  
  /// remove(key)
@@ -58,21 +74,23 @@
  /// @return true if the key was found and removed, otherwise false
  bool HashTable::remove(const string& key) {
     size_t index = hash(key);
-    HashTableNode* current = table[index].head;
-    HashTableNode* prev = nullptr;
+    HashTableBucket& bucket = table[index];
+    
+    HashTableNode* current = bucket.head;
+    HashTableNode* previous = nullptr;
 
     while (current != nullptr) {
         if (current->key == key) {
-            if (prev == nullptr) {
-                table[index].head = current->next;
+            if (previous == nullptr) {
+                bucket.head = current->next;
             } else {
-                prev->next = current->next;
+                previous->next = current->next;
             }
             delete current;
-            --numElements;
+            numElements--;
             return true;
         }
-        prev = current;
+        previous = current;
         current = current->next;
     }
     return false;
@@ -101,13 +119,16 @@
  /// in the table find returns nullopt
  optional<int> HashTable::get(const string& key) const {
     size_t index = hash(key);
-    HashTableNode* current = table[index].head;
-
+    const HashTableBucket& bucket = table[index];
+    
+    HashTableNode* current = bucket.head;
     while (current != nullptr) {
         if (current->key == key) {
-            return 0;
-            }
+            return current->value;
         }
+        current = current->next;
+    }
+
     return nullopt;
  }
  
@@ -121,14 +142,12 @@
  /// @return a reference to the value associated with the key
  /// if the key is not in the table, the behavior is undefined
  int& HashTable::operator[](const string& key) {
-     size_t index = hash(key);
-     int value;
-     int& ref = value;
-     if (!table[index].isNormal() || table[index].getKey() != key) {
-         insert(key, 0);
-     } 
-     value = table[index].getValue();
-     return value;
+    auto value = get(key);
+    if (value) {
+        return *value;
+    }
+    insert(key, value.value());
+    return value.value();
  }
  
  /// keys()
@@ -176,6 +195,23 @@
  /// all the elements remain in the table, and will need to be re-hashed based on the new capacity
  /// @param resizeFactor how much to resize the table by
  void HashTable::resizeTable(double resizeFactor) {
+    size_t newCapacity = table.size() * resizeFactor;
+    std::vector<HashTableBucket> newTable(newCapacity);
+
+    for (size_t i = 0; i < table.size(); ++i) {
+        HashTableBucket& bucket = table[i];
+        HashTableNode* current = bucket.head;
+        while (current != nullptr) {
+            size_t newIndex = std::hash<std::string>{}(current->key) % newCapacity;
+            HashTableBucket& newBucket = newTable[newIndex];
+            HashTableNode* newNode = new HashTableNode(current->key, current->value);
+            newNode->next = newBucket.head;
+            newBucket.head = newNode;
+            current = current->next;
+        }
+    }
+
+    table = move(newTable);
  }
  
  /// makeShuffledVector is provided for you
@@ -212,7 +248,7 @@
      for (size_t i = 0; i < hashTable.size(); i++) {
          const auto& bucket = hashTable.table[i];
          if (bucket.isNormal()) {
-             os << "Bucket " << i << ": " << bucket << endl; // Assuming bucket overloads << operator
+             os << "Bucket " << i << ": " << bucket << endl; 
          }
      }
      return os;
