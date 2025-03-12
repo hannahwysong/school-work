@@ -48,13 +48,11 @@
     }
 
     // If key doesn't exist, insert the key-value pair at the beginning of the list
-    table[index].load(key, value);
+    HashTableNode* newNode = new HashTableNode(key, value);
+    newNode->next = table[index].head;
+    table[index].head = newNode;
+    table[index].type = BucketType::NORMAL;
     ++numElements;
-
-    // Resize the table if the load factor exceeds the threshold
-    if (static_cast<double>(numElements) / tableSize > 0.7) {
-        resizeTable(2.0);
-    }
 
     return true;
 }
@@ -75,8 +73,15 @@
     while (current != nullptr) {
         if (current->key == key) {
             // Mark the bucket as EAR (tombstone)
-            bucket.kill();
-            numElements--;
+            if (previous) {
+                previous->next = current->next;  // Unlink node from list
+            } else {
+                bucket.head = current->next;  // If the node to remove is the first one
+            }
+
+            delete current;  // Free memory
+            bucket.kill();   // Mark as tombstone
+            --numElements;
             return true;
         }
         previous = current;
@@ -136,8 +141,13 @@
     if (value) {
         return *value;
     }
-    insert(key, value.value());
-    return value.value();
+    
+    // Insert a default value when the key is not found
+    insert(key, 0);  // You can insert a default value like 0 or another value.
+    
+    // Retrieve the inserted value
+    value = get(key);  
+    return *value;
  }
  
  /// keys()
@@ -192,8 +202,8 @@
         HashTableBucket& bucket = table[i];
         HashTableNode* current = bucket.head;
         while (current != nullptr) {
-            size_t newIndex = hash(current->key) % newCapacity;
-            newTable[newIndex].load(current->key, current->value);
+            size_t newIndex = hash(current->key) % newCapacity;  // Rehash for new table
+            newTable[newIndex].load(current->key, current->value);  // Insert into new bucket
             current = current->next;
         }
     }
@@ -234,10 +244,8 @@
  /// @return reference to the ostream
  ostream& operator<<(ostream& os, const HashTable& hashTable) {
      for (size_t i = 0; i < hashTable.size(); i++) {
-         const auto& bucket = hashTable.table[i];
-         if (bucket.isNormal()) {
-             os << "Bucket " << i << ": " << bucket.toString() << endl; 
-         }
+        const auto& bucket = hashTable.table[i];
+        os << "Bucket " << i << ": " << bucket.toString() << endl; 
      }
      return os;
  }
