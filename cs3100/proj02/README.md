@@ -1,4 +1,4 @@
-i# Project #2 – Map ADT: [AVL Tree](/cs3100/proj02/Project02_AVLTree.pdf)
+# Project #2 – Map ADT: [AVL Tree](/cs3100/proj02/Project02_AVLTree.pdf)
 
 ## Learning Objectives
 
