@@ -1,37 +1,57 @@
-#include <string>
+
+
 #ifndef AVLTREE_H
 #define AVLTREE_H
+#include <string>
+#include <utility>
+#include <vector>
+#include <optional>
+#include <ostream>
 
-struct AVLTreeNode; {
+struct AVLTreeNode {
     std::string key;
     int value;
     size_t height;
     AVLTreeNode *left;
-    AVLTreeNode *right
+    AVLTreeNode *right;
 
-    AVLTreeNode(AVLTreeNode *left = nullptr, AVLTreeNode *right = nullptr) : value(value), key(key), height(0), left(left), right(right) {}
-}
+    AVLTreeNode(std::string key, const int value, AVLTreeNode *left = nullptr, AVLTreeNode *right = nullptr) : key(std::move(key)), value(value), height(0), left(left), right(right) {}
+};
 
-class AVLTree; {
+class AVLTree {
   public:
 
-      ~AVLTree()
-      AVLTree(const AVLTree& other);
-      bool AVLTree::insert(const string& key, int value);
-      bool AVLTree::remove(const string& key);
-      bool AVLTree::contains(const string& key) const;
-      optional<int> AVLTree::get(const string& key) const;
-      int& AVLTree::operator[](const string& key);
-      vector<int> AVLTree::findRange(string lowKey, string highKey) const;
-      vector<string> AVLTree::keys() const;
-      size_t AVLTree::size() const;
-      size_t AVLTree::getHeight() const;
-      ostream& operator<<(ostream& os, const AVLTree & avlTree);
+      ~AVLTree();
+
+      bool insert(const std::string& key, int value);
+
+      bool remove(const std::string& key);
+
+      bool contains(const std::string& key) const;
+
+      std::optional<int> get(const std::string& key) const;
+
+      int& operator[](const std::string& key);
+
+      std::vector<int> findRange(std::string lowKey, std::string highKey) const;
+
+      std::vector<std::string> keys() const;
+
+      size_t size() const;
+
+      size_t getHeight() const;
+
+      void print() const;
+
+      std::ostream& operator<<(std::ostream& os, const AVLTree & avlTree);
+
 
   private:
     AVLTreeNode *root;
+    size_t height;
+    size_t numNodes;
 
-}
+};
 std::ostream& operator<<(std::ostream& os, const AVLTree& me);
 std::ostream& operator<<(std::ostream& os,  std::pair<const AVLTree&,  size_t> height);
 
