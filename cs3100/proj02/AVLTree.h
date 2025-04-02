@@ -20,39 +20,38 @@ struct AVLTreeNode {
 
 class AVLTree {
   public:
-
-      ~AVLTree();
-
-      bool insert(const std::string& key, int value);
-
-      bool remove(const std::string& key);
-
-      bool contains(const std::string& key) const;
-
-      std::optional<int> get(const std::string& key) const;
-
-      int& operator[](const std::string& key);
-
-      std::vector<int> findRange(std::string lowKey, std::string highKey) const;
-
-      std::vector<std::string> keys() const;
-
-      size_t size() const;
-
-      size_t getHeight() const;
-
-      void print() const;
-
-      std::ostream& operator<<(std::ostream& os, const AVLTree & avlTree);
-
-
-  private:
     AVLTreeNode *root;
     size_t height;
     size_t numNodes;
 
+    AVLTree();
+
+    ~AVLTree();
+
+    bool insert(const std::string& key, int value);
+
+    bool remove(const std::string& key);
+
+    bool contains(const std::string &key);
+
+    std::optional<int> get(const std::string &key);
+
+    int& operator[](const std::string& key) const;
+
+    std::vector<int> findRange(std::string lowKey, std::string highKey) const;
+
+    std::vector<std::string> keys() const;
+
+    void deleteSubtree(AVLTreeNode* Node);
+
+    size_t size() const;
+
+    size_t getHeight() const;
+
+    void print() const;
+
 };
-std::ostream& operator<<(std::ostream& os, const AVLTree& me);
+std::ostream& operator<<(std::ostream& os, const AVLTree& AVLTree);
 std::ostream& operator<<(std::ostream& os,  std::pair<const AVLTree&,  size_t> height);
 
 #endif

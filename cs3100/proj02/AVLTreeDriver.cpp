@@ -1,11 +1,7 @@
 #include <iostream>
 
 using namespace std;
-
-int main() {
-    cout << "Hello, World!" << endl;
-    return 0;
-}/*
+/*
 Driver code for testing your AVL Tree
 This is NOT the test code for grading,
 instead for you to get an idea of how to test the tree
