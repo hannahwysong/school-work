@@ -1,287 +1,165 @@
-Project #1 – Map ADT: Hash Table
+# Project #1 – Map ADT: [Hash Table](/cs3100/proj01/Project1_HashTable.pdf)
 
-Learning Objectives
+## Learning Objectives
 
 - Implement a data structure to meet given specifications
-
 - Design, implement, and use a close hash table data structure
+- Utilize efficient techniques for managing collisions in hash tables
+- Understand dynamic resizing strategies for hash tables
+- Implement a hash table as a Map ADT to store key-value pairs
+- Analyze the efficiency of hash table operations
+- Practice operator overloading for better usability in C++
 
-- Use a hash table as a Map ADT
+## Overview
 
-Overview
+The Map ADT, sometimes called a Dictionary, provides a way to access values based on keys. It is often represented as `<KeyType, ValueType>`. For example, if we wanted to store customer names and look them up using their customer ID, we could have an integer key representing the customer ID and a string value representing their name.
 
-The Map ADT, sometimes called a Dictionary, allows access to item values based on a key. This is
+Alternatively, we could store the customer IDs in the Map and use the customer’s name as the key to look up their ID. In this case, the key would be a string, and the value would be an integer.
 
-often denoted as: <KeyType, ValueType>. For example, we could store customers’ names
+For our Map, we will use strings for keys and integers for values:
 
-and be able to look them up using their customer ID. If the customer ID were an integer and the
-
-customer’s name a string, our key would be an integer, and the value would be a string.
-
-Alternatively, we could store the customer IDs in the Map and use the customer’s name to look up
-
-their ID. In this case, the key would be a string, and the value would be an integer. For our Map, we
-
-will be using strings for keys and integers for values. If we were using templates, our map would be
-
-declared like:
-
+```cpp
 Map<string, int> myMap;
+```
 
-However, to make things easier on us using C++, we’re going to fix the types of the key and value to
+However, to simplify implementation in C++, we will fix the types of the key and value to strings and integers. This allows us to focus on implementing the hash table efficiently rather than handling multiple data types.
 
-strings and integers.
+## Hash Table Representation
 
-Hash Table Representation
+There are two primary ways to handle collision resolution in hash tables:
 
-As discussed in class, there are two main ways of handling collision resolution: chaining and
+1. **Chaining** - Each index contains a linked list of entries that share the same hash value.
+2. **Probing** - Each index contains a single entry, and collisions are resolved using a probing technique within the array.
 
-probing. Both approaches involve utilizing an array, but the process for handling collisions is
+For this project, you must decide whether to implement chaining or probing. If you choose probing, you must further decide between pseudo-random probing and double hashing.
 
-different. Additionally, the storage required for each collision resolution approach differs. For
+## HashTableBucket Class
 
-chaining, you would use an array where every index of the array contained a list of table entries. For
+The `HashTableBucket` class is provided for storing key-value pairs. This class supports:
 
-probing, the array would contain buckets that held one entry each.
+- `string` keys
+- `int` values
+- An enum `BucketType` to distinguish between empty (never used), empty (after removal), and occupied buckets.
 
-For this project, you are to decide whether to utilize chaining or probing. Depending on your choice,
+This approach helps differentiate between different bucket states, improving efficiency during lookup operations.
 
-you will need to add the appropriate data structure into your HashTable class (discussed below).
+## The HashTable Class
 
-Additionally, if you choose probing, you have a further choice to make. For this project, you must
+You will be provided with two files:
 
-decide between pseudo-random probing and double hashing.
+- `HashTable.h` (header file) - Contains method declarations and necessary data structures.
+- `HashTable.cpp` - Contains method stubs for `HashTable` and `HashTableBucket` classes.
 
-HashTableBucket Class
+You should not modify any given code but will implement method bodies and add any required member data or helper functions.
 
-Provided for you along with the HashTableClass, our buckets will store string as the key and int as
+### Required Methods
 
-the value. There is also an enum BucketType to distinguish between empty since start, empty after
+#### `HashTable::HashTable(size_t initCapacity)`
 
-removal, and normal (occupied) buckets. zyBooks has a different method for distinguishing bucket
+Initializes the hash table with a given capacity. The choice of capacity and how it affects resizing depends on your collision resolution strategy.
 
-types, and you may use that one instead, but I think the enum approach is easier.
+#### `bool HashTable::insert(const string& key, int value)`
 
-2
+Inserts a key-value pair into the table. Returns `true` on success and `false` on failure (e.g., duplicate key). Proper handling of collisions is necessary.
 
-The HashTable class
+#### `bool HashTable::remove(const string& key)`
 
-You will be provided with two files: HashTable.h and HashTable.cpp. You should not modify any of
+Removes a key-value pair if the key exists. In chaining, this means deleting a node in a linked list, while in probing, it may involve marking a bucket as deleted.
 
-the code given to you, you will only be adding code. HashTable.h, also known as the header file,
+#### `bool HashTable::contains(const string& key) const`
 
-has the declaration of all the methods. The header file is where you will decide on the appropriate
+Returns `true` if the key exists in the table, otherwise `false`. This operation must be implemented efficiently.
 
-data structure for your hash table depending on your collision resolution approach. You will need
+#### `optional<int> HashTable::get(const string& key) const`
 
-to add any member data, placing them in the appropriate visibility sections.
+Returns the value associated with a key if found, otherwise `nullopt`. This avoids returning invalid values such as `-1`.
 
-HashTable.cpp has stubs for all the methods for the HashTable and HashTableBucket (discussed
+#### `int& operator[](const string& key)`
 
-below) classes. The HashTableBucket methods have been written for you. Leave the existing
+Provides bracket access to values, allowing retrieval and modification. If the key does not exist, behavior is undefined.
 
-methods as they are, but if you feel you need more functionality you may add member data or
+#### `vector<string> HashTable::keys() const`
 
-functions to HashTableBucket.
+Returns a vector of all keys currently in the table. This helps in iterating through the stored data efficiently.
 
-The majority of what you will write are the bodies of the HashTable methods.
+#### `double HashTable::alpha() const`
 
-HashTable::HashTable(size_t initCapacity)
+Returns the current load factor (`size / capacity`). Ensuring this method runs in O(1) time is important.
 
-There is one constructor for the HashTable that takes the initial capacity for the table. Depending
+#### `size_t HashTable::capacity() const`
 
-on your collision resolution strategy, this value will mean different things.
+Returns the total number of buckets. The value should reflect any dynamic resizing done.
 
-bool HashTable::insert(const string& key, int value)
+#### `size_t HashTable::size() const`
 
-Insert a new key-value pair into the table. Duplicate keys are not allowed. The method should
+Returns the number of key-value pairs in the table.
 
-return true if the insertion was successful. If the insertion was unsuccessful, such as when a
+#### `ostream& operator<<(ostream& os, const HashTable& hashTable)`
 
-duplicate is attempted to be inserted, the method should return false.
+Overloads `<<` to print only occupied buckets along with their indices. Example output:
 
-bool HashTable::remove(const string& key)
-
-If the key is in the table, remove will “delete” the key-value pair from the table. Depending on your
-
-collision resolution, this might either be marking a bucket as empty-after-remove or removing an
-
-element from a list.
-
-bool HashTable::contains(const string& key) const
-
-Contains simply returns true if the key is in the table and false if the key is not in the table.
-
-optional<int> HashTable::get(const string& key) const
-
-If the key is found in the table, find will return the value associated with that key. If the key is not in
-
-the table, find will return something called nullopt, which is a special value in C++. The find method
-
-returns an optional<int>, which is a way to denote a method might not have a valid value to return.
-
-This approach is nicer than designating a special value, like -1, to signify the return value is invalid.
-
-It’s also much better than throwing an exception if the key is not found.
-
-int& operator[](const string& key)
-
-The bracket operator will allow us to use our map the same way various programming languages
-
-such as C++ and Python allow us to access values. The bracket operator will work like get in so
-
-that it will return the value stored in the bucket with the given key. We can get the value associated
-
-with a key by saying:
-
-int idNum = hashTable[“James”];
-
-However, the bracket operator returns a reference to that value. This means we can update the
-
-value associated with a key like:
-
-hashTable[“James”] = 1234;
-
-3
-
-The one issue comes when the key is not in the table. For that case, there are options like the ones
-
-we had with get. However, returning a reference to a value not in the table is impossible, since it's
-
-not in the table. So, you may opt to throw an exception if you want, or you can return a reference to
-
-a value that is not associated with the key. This is called undefined behavior, and for us it is just
-
-something we will have.
-
-vector<string> HashTable::keys() const
-
-The keys method will return a vector (C++ version of ArrayList, or simply list/array) with all of the
-
-keys currently in the table. The length of the vector should be the same as the size of the hash
-
-table.
-
-double HashTable::alpha() const
-
-The alpha method returns the current load factor of the table, or size/capacity. Since alpha returns
-
-a double, make sure to properly cast the values to avoid integer division. The time complexity for
-
-this method must be O(1).
-
-size_t HashTable::capacity() const
-
-The capacity method returns how many buckets in total are in the hash table. The time complexity
-
-for this algorithm must be O(1).
-
-size_t HashTable::size() const
-
-The size method returns how many key-value pairs are in the hash table. The time complexity for
-
-this method must be O(1)
-
-In addition to these methods of HashTable, you will also implement an operator to easily print out
-
-the hash table. This is not a method of the HashTable class, and as such does not have access to
-
-the private data of HashTable.
-
-ostream& operator<<(ostream& os, const HashTable& hashTable)
-
-Operator<< is another example of operator overloading in C++, similar to the bracket operator. This
-
-operator will allow us to print the contents of our hash table using the normal syntax:
-
-cout << myHashTable << endl;
-
-You should only print the buckets which are occupied, and along with each item you will print
-
-which bucket (the index of the bucket) the item is in. To make it easy, I suggest creating a helper
-
-method called something like printMe() that returns a string of everything in the table. An example
-
-which uses open addressing for collision resolution could print something like:
-
+```plaintext
 Bucket 5: <James, 4815>
-
 Bucket 2: <Juliet, 1623>
-
 Bucket 11: <Hugo, 42108>
+```
 
-If your hash table uses chaining, there may be multiple key-value pairs located in the same bucket.
+## Table Data Structure
 
-4
+### Chaining
 
-Table Data
+If using chaining, implement a custom linked list, **not** standard C++ containers. The table will be stored as:
 
-You will have the choice between using chaining or open addressing to store the data. There are a
-
-few caveats for each choice:
-
-Chaining
-
-If you decide to implement chaining, you must implement the bucket lists as a linked list of your
-
-own, and not utilize one of the C++ containers such as list or vector. However, you are allowed to
-
-use the vector class to hold all the lists. Your data table might look like
-
+```cpp
 vector<MyGreatLinkedList> dataTable;
+```
 
-And the nodes in MyGreatLinkedList would store a bucket and a pointer to the next node.
+Where `MyGreatLinkedList` nodes store a bucket and a pointer to the next node.
 
-Open Addressing
+### Open Addressing
 
-If you opt to implement open addressing, you must implement the storage array manually. You are
+If using open addressing, manually manage an array:
 
-not allowed to use a C++ container, but instead you will manually manage an array of
-
-HashTableBucket objects. Your data table will look like:
-
+```cpp
 HashTableBucket* dataTable;
+```
 
-Failure to comply with these requirements will result in a zero for the assignment.
+Standard C++ containers are **not** allowed for storage.
 
-Probe Function (Open Addressing)
+## Probe Function (Open Addressing)
 
-If your hash table utilizes open addressing, you must decide on a probe function to handle
+If using open addressing, choose between:
 
-collisions. For this project, you must choose between pseudo-random probing and double
+- **Pseudo-random probing** - Uses a random-like sequence to find open spots.
+- **Double hashing** - Uses a secondary hash function to determine probe steps.
 
-hashing. Both approaches will need to handle when the table is resized.
+Properly implementing these functions is key to avoiding clustering issues.
 
-Table Resizing
+## Table Resizing
 
-In addition to the above methods, your hash table will need to be able to dynamically grow as the
+The hash table must dynamically resize, doubling in size when necessary. The expansion condition can be one of:
 
-user inserts data. Your initial table capacity should be 8, meaning the size of your array/vector
+- Load factor exceeds `0.5`
+- Insert collisions exceed `N/3`
+- Bucket list length exceeds `3` (for chaining)
 
-should start with 8 empty buckets (for chaining it will be 8 empty lists of buckets). To keep it simple,
+Resizing should involve rehashing all existing elements.
 
-you may double the size of your array when necessary. You will choose which metric to use to
+## Time Complexity Analysis
 
-decide when to increase the size of the table among the ones discussed in class:
+For the chosen data structure, analyze the time complexity of:
 
-- Load factor goes above 0.5
+- `insert`
+- `remove`
+- `contains`
+- `get`
+- `operator[]`
 
-- Number of collisions during an insert is more than N/3
+Provide justifications as comments in the code. Consider:
 
-- Length of a bucket’s list is greater than 3
+- The impact of collision resolution strategies.
+- Worst-case scenarios for insert and lookup.
+- How resizing affects performance over time.
 
-The first two approaches pertain to open addressing implementations, the last one would apply to
+By analyzing these aspects, you will gain deeper insights into hash table efficiency and trade-offs.
 
-a hash table with chaining.
-
-Time Complexity Analysis
-
-Based your choice of data structure for your data table, you will report the time complexity of:
-
-insert, remove, contains, get, and operator[]. Give a short justification for why
-
-5
-
-each method is your stated time complexity. You may have these as comments for each of the
-
-stated methods
