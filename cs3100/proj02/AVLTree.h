@@ -1,5 +1,11 @@
+/**
+* AVLTree.h
+* CS 3100/5100
+*/
+
 #ifndef AVLTREE_H
 #define AVLTREE_H
+
 #include <string>
 #include <utility>
 #include <vector>
@@ -13,7 +19,8 @@ struct AVLTreeNode {
     AVLTreeNode *left;
     AVLTreeNode *right;
 
-    AVLTreeNode(std::string key, const int value, AVLTreeNode *left = nullptr, AVLTreeNode *right = nullptr) : key(std::move(key)), value(value), height(0), left(left), right(right) {}
+    AVLTreeNode(std::string key, const int value, AVLTreeNode *left = nullptr, AVLTreeNode *right = nullptr)
+        : key(std::move(key)), value(value), height(0), left(left), right(right) {}
 };
 
 class AVLTree {
@@ -64,14 +71,9 @@ public:
 
     std::vector<int> findRange(std::string lowKey, std::string highKey);
 
-    void findRangeHelper(AVLTreeNode *node, const std::string &lowKey, const std::string &highKey,
-                         std::vector<int> &result);
+    void findRangeHelper(AVLTreeNode *node, const std::string &lowKey, const std::string &highKey,std::vector<int> &result);
 
     std::vector<std::string> keys();
-
-    std::vector<int> findRange(std::string lowKey, std::string highKey) const;
-
-    std::vector<std::string> keys() const;
 
     void deleteSubtree(AVLTreeNode* Node);
 
@@ -82,8 +84,6 @@ public:
     size_t getHeight() const;
 
     void printTree(std::ostream &os, AVLTreeNode *node, int depth) const;
-
-    void print() const;
 
 };
 std::ostream& operator<<(std::ostream& os, const AVLTree& AVLTree);
