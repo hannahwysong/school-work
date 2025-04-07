@@ -1,12 +1,10 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Project2_AVLTree.dir/AVLTree.cpp.obj"
-  "CMakeFiles/Project2_AVLTree.dir/AVLTree.cpp.obj.d"
-  "CMakeFiles/Project2_AVLTree.dir/AVLTreeDriver.cpp.obj"
-  "CMakeFiles/Project2_AVLTree.dir/AVLTreeDriver.cpp.obj.d"
-  "Project2_AVLTree.exe"
-  "Project2_AVLTree.exe.manifest"
+  "CMakeFiles/Project2_AVLTree.dir/AVLTree.cpp.o"
+  "CMakeFiles/Project2_AVLTree.dir/AVLTree.cpp.o.d"
+  "CMakeFiles/Project2_AVLTree.dir/AVLTreeDriver.cpp.o"
+  "CMakeFiles/Project2_AVLTree.dir/AVLTreeDriver.cpp.o.d"
+  "Project2_AVLTree"
   "Project2_AVLTree.pdb"
-  "libProject2_AVLTree.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.
