@@ -1,42 +1,31 @@
-/**
- *  MultiSet.h
- *  Header file for MultiSet class
- *  These are the minimum methods you need to implement. You will also need
- *  to implement a chosen extension function as detailed in the assignment PDF.
- *  You can add to this file, but do not change any of the declarations
- */
-#include "AvlTree.h"
-#include <string>
-#include <vector>
 
-class MultiSet {
-    // declare your elements container and any other private member data
-    Container elements{};
+#include "MultiSet.h"
 
-public:
-    // delete the one you are not using
-    // keep this public
-    using Container = AVLTree;
-    // if using a custom container, delete both above and have Container be your data structure
+using namespace std;
+auto multiSet = new MultiSet;
 
     /**
-     * Default constructor, initializes the set to be empty
-     */
-    MultiSet();
+    * Default constructor, initializes the set to be empty
+    */
+    MultiSet::MultiSet() : elements(0) {}
 
     /**
      * Destructor, would only be required if you had pointers inside MultiSet
      * Otherwise, your Container or other member variables should be responsible
      * for freeing the memory they are using
      */
-    ~MultiSet();
+    MultiSet::~MultiSet() {
+
+    }
 
     /**
      * Copy constructor, this MultiSet should be a deep-copy of other
      *
      * @param other the MultiSet to be copied
      */
-    MultiSet(const MultiSet& other);
+    MultiSet::MultiSet(const MultiSet& other) {
+
+    }
 
     /**
      * Assignment operator, the memory this MultiSet stores should be released (if necessary)
@@ -44,7 +33,9 @@ public:
      * @param other the MultiSet to be copied
      * @return
      */
-    MultiSet& operator=(const MultiSet& other);
+    MultiSet::MultiSet& operator=(const MultiSet& other) {
+
+    }
 
     /**
      * Insert the key into the multiset with an optional parameter
@@ -54,7 +45,9 @@ public:
      * @param num how many elements to insert, defaults to 1
      * @return true if element was insert, false if an error was encountered
      */
-    bool insert(const std::string& key, size_t num = 1);
+    bool MultiSet::insert(const std::string& key, size_t num = 1) {
+
+    }
 
     /**
      * Remove the key from the multiset, with optional parameter for how
@@ -65,7 +58,9 @@ public:
      * @return true if the key was removed, false if key is not in the set,
      * or there were not enough copies based on the number to remove
      */
-    bool remove(const std::string& key, size_t num = 1);
+    bool MultiSet::remove(const std::string& key, size_t num = 1) {
+
+    }
 
     /**
      * Remove the given number of arbitrary elements from the multiset. If
@@ -74,7 +69,9 @@ public:
      * @param num how many elements to remove
      * @return the elements that were removed
      */
-    std::vector<std::string> remove(size_t num = 1);
+    std::vector<std::string> MultiSet::remove(size_t num = 1) {
+
+    }
 
     /**
      * Determins if they key is in the multiset at least once
@@ -82,7 +79,9 @@ public:
      * @param key element to find
      * @return true if key is in multiset, otherwise false
      */
-    bool contains(const std::string& key) const;
+    bool MultiSet::contains(const std::string& key) const {
+
+    }
 
     /**
      * Given an element, count determins how many times that element appears
@@ -91,21 +90,27 @@ public:
      * @param key element to find the count of
      * @return how many of the given element appear
      */
-    size_t count(const std::string& key) const;
+    size_t MultiSet::count(const std::string& key) const {
+
+    }
 
     /**
      * Find all elements, including duplicates
      *
      * @return all elements with the vector size == size()
      */
-    std::vector<std::string> keys() const;
+    std::vector<std::string> MultiSet::keys() const {
+
+    }
 
     /**
      * Find all the unique keys
      *
      * @return each key with vector size == uniqueSize()
      */
-    std::vector<std::string> uniqueKeys() const;
+    std::vector<std::string> MultiSet::uniqueKeys() const {
+
+    }
 
     /**
      * Determines if the multiset contains any elements
@@ -113,26 +118,34 @@ public:
      * @return true if there are any elements in the multiset,
      * othersize false
      */
-    bool empty();
+    bool MultiSet::empty() {
+
+    }
 
     /**
      * Determines the total number of elements
      *
      * @return how many elements in total are currently in the multiset
      */
-    size_t size() const;
+    size_t MultiSet::size() const {
+
+    }
 
     /**
      * Determines the number of unique keys
      *
      * @return how many unique keys are currently in the multiset
      */
-    size_t uniqueSize() const;
+    size_t MultiSet::uniqueSize() const {
+
+    }
 
     /**
      * Removes all elements from the multiset
      */
-    void clear();
+    void MultiSet::clear() {
+
+    }
 
     /////////////////
     // Set Operations
@@ -144,7 +157,9 @@ public:
      * @param other the set to find the union with
      * @return the union of the current set with the other one
      */
-    MultiSet unionWith(const MultiSet& other) const;
+    MultiSet MultiSet::unionWith(const MultiSet& other) const {
+
+    }
 
     /**
      * Returns a multiset containing only elements common to both
@@ -152,7 +167,9 @@ public:
      * @param other the set to find the intersection with
      * @return multiset with elements only found in both this and the other
      */
-    MultiSet intersectionWith(const MultiSet& other) const;
+    MultiSet MultiSet::intersectionWith(const MultiSet& other) const {
+
+    }
 
     /**
      * Returns multiset containing all the elements in the current set that are
@@ -161,7 +178,9 @@ public:
      * @param other the set to find the difference with
      * @return multiset with elements in the current set not found in the other
      */
-    MultiSet differenceWith(const MultiSet& other) const;
+    MultiSet MultiSet::differenceWith(const MultiSet& other) const {
+
+    }
 
     /**
      * Returns a multiset containing elements that are either in this or the
@@ -170,7 +189,9 @@ public:
      * @param other the set to find the symmetric differnce with
      * @return set containing elements unique to both this and other
      */
-    MultiSet symmetricDifferenceWith(const MultiSet& other) const;
+    MultiSet MultiSet::symmetricDifferenceWith(const MultiSet& other) const {
+
+    }
 
     /**
      * Outputs a representation of the multiset
@@ -183,5 +204,7 @@ public:
      * @param ms the MultiSet to output
      * @return reference to os
      */
-    friend std::ostream& operator<< (std::ostream& os, const MultiSet& ms);
-};
+    std::ostream& operator<< (std::ostream& os, const MultiSet& ms) {
+
+    }
+
