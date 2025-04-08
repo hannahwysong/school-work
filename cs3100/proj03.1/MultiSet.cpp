@@ -1,5 +1,6 @@
 
 #include "MultiSet.h"
+#include <iostream>
 
 using namespace std;
 auto multiSet = new MultiSet;
@@ -7,7 +8,7 @@ auto multiSet = new MultiSet;
     /**
     * Default constructor, initializes the set to be empty
     */
-    MultiSet::MultiSet() : elements(0) {}
+    MultiSet::MultiSet() : elements() {}
 
     /**
      * Destructor, would only be required if you had pointers inside MultiSet
@@ -33,7 +34,7 @@ auto multiSet = new MultiSet;
      * @param other the MultiSet to be copied
      * @return
      */
-    MultiSet::MultiSet& operator=(const MultiSet& other) {
+    MultiSet& MultiSet::operator=(const MultiSet& other) {
 
     }
 
@@ -45,7 +46,7 @@ auto multiSet = new MultiSet;
      * @param num how many elements to insert, defaults to 1
      * @return true if element was insert, false if an error was encountered
      */
-    bool MultiSet::insert(const std::string& key, size_t num = 1) {
+    bool MultiSet::insert(const std::string& key, size_t num) {
 
     }
 
@@ -58,7 +59,7 @@ auto multiSet = new MultiSet;
      * @return true if the key was removed, false if key is not in the set,
      * or there were not enough copies based on the number to remove
      */
-    bool MultiSet::remove(const std::string& key, size_t num = 1) {
+    bool MultiSet::remove(const std::string& key, size_t num) {
 
     }
 
@@ -69,7 +70,7 @@ auto multiSet = new MultiSet;
      * @param num how many elements to remove
      * @return the elements that were removed
      */
-    std::vector<std::string> MultiSet::remove(size_t num = 1) {
+    std::vector<std::string> MultiSet::remove(size_t num) {
 
     }
 

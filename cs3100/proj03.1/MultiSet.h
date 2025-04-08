@@ -5,18 +5,18 @@
  *  to implement a chosen extension function as detailed in the assignment PDF.
  *  You can add to this file, but do not change any of the declarations
  */
-#include "AvlTree.h"
+#include "AVLTree.h"
 #include <string>
 #include <vector>
 
 class MultiSet {
     // declare your elements container and any other private member data
-    Container elements{};
-
 public:
     // delete the one you are not using
     // keep this public
+    //using Container = HashTable;
     using Container = AVLTree;
+
     // if using a custom container, delete both above and have Container be your data structure
 
     /**
@@ -184,4 +184,7 @@ public:
      * @return reference to os
      */
     friend std::ostream& operator<< (std::ostream& os, const MultiSet& ms);
+
+private:
+    Container elements{};
 };
