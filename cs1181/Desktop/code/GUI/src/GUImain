@@ -1,0 +1,19 @@
+import javax.swing.*;
+
+public class GUImain {
+    public static void main{
+        int clicks = 0;
+        JFrame window = new JFrame("");
+        window.size(300,300);
+        window.setDefualtCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        YellowPanel myPanel = new YellowPanel();
+        window.setContentPane(myPanel);
+
+        JLabel label1 = newJLabel("ClicksL: " + clicks);
+        myPanel.addJLabel(label1);
+
+        JButton button1 = new JButton("Click me!");
+        myPanel.addJbutton(button1);
+    }
+}
