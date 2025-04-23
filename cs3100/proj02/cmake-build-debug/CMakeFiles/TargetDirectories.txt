@@ -1,0 +1,3 @@
+/Users/hannahwysong/school-work/cs3100/proj02/cmake-build-debug/CMakeFiles/Project2_AVLTree.dir
+/Users/hannahwysong/school-work/cs3100/proj02/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/hannahwysong/school-work/cs3100/proj02/cmake-build-debug/CMakeFiles/rebuild_cache.dir
