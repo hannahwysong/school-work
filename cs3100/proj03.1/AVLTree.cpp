@@ -266,6 +266,16 @@ optional<int> AVLTree::getHelper(AVLTreeNode* node, const string& key) const {
     return getHelper(node->right, key);
 }
 
+optional<int> AVLTree::getCount(const string& key) {
+    if (!contains(key)) return 0;
+    return getCountHelper(root, key);
+}
+optional<int> AVLTree::getCountHelper(AVLTreeNode* node, const string& key) const {
+    if (!node) return nullopt;
+    if (key == node->key) return node->count;
+    if (key < node->key) return getCountHelper(node->left, key);
+    return getCountHelper(node->right, key);
+}
 
 /// AVLTree[key]
 /// Allows keys to be inserted using the [] syntax
