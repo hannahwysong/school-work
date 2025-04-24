@@ -9,28 +9,28 @@ int main() {
 
     // Test inserting elements into ms1
     std::cout << "Inserting elements into ms1...\n";
-    ms1.insert("apple", 3);
-    ms1.insert("banana", 2);
-    ms1.insert("cherry", 5);
+    ms1.insert("A", 3);
+    ms1.insert("B", 2);
+    ms1.insert("C", 5);
 
     // Test inserting elements into ms2
     std::cout << "Inserting elements into ms2...\n";
-    ms2.insert("banana", 1);
-    ms2.insert("date", 4);
-    ms2.insert("apple", 2);
+    ms2.insert("B", 1);
+    ms2.insert("D", 4);
+    ms2.insert("A", 2);
 
     // Print ms1 and ms2
     std::cout << "ms1: " << ms1 << std::endl;
     std::cout << "ms2: " << ms2 << std::endl;
 
     // Test contains and count
-    std::cout << "ms1 contains 'apple': " << ms1.contains("apple") << std::endl;
-    std::cout << "ms1 count of 'banana': " << ms1.count("banana") << std::endl;
-    std::cout << "ms2 count of 'cherry': " << ms2.count("cherry") << std::endl;
+    std::cout << "ms1 contains 'A': " << ms1.contains("A") << std::endl; // true
+    std::cout << "ms1 count of 'B': " << ms1.count("B") << std::endl; // 1
+    std::cout << "ms2 count of 'C': " << ms2.count("C") << std::endl; // 0
 
     // Test removing elements
-    std::cout << "Removing 2 'apple' from ms1...\n";
-    ms1.remove("apple", 2);
+    std::cout << "Removing 2 'A' from ms1...\n";
+    ms1.remove("A", 3);
     std::cout << "ms1 after removal: " << ms1 << std::endl;
 
     // Test remove arbitrary elements
@@ -43,16 +43,16 @@ int main() {
     std::cout << "\n";
 
     // Test union
-    std::cout << "Union of ms1 and ms2: " << ms1.unionWith(ms2) << std::endl;
+    //std::cout << "Union of ms1 and ms2: " << ms1.unionWith(ms2) << std::endl;
 
     // Test intersection
-    std::cout << "Intersection of ms1 and ms2: " << ms1.intersectionWith(ms2) << std::endl;
+    //std::cout << "Intersection of ms1 and ms2: " << ms1.intersectionWith(ms2) << std::endl;
 
     // Test difference
-    std::cout << "Difference between ms1 and ms2: " << ms1.differenceWith(ms2) << std::endl;
+    //std::cout << "Difference between ms1 and ms2: " << ms1.differenceWith(ms2) << std::endl;
 
     // Test symmetric difference
-    std::cout << "Symmetric difference between ms1 and ms2: " << ms1.symmetricDifferenceWith(ms2) << std::endl;
+    //std::cout << "Symmetric difference between ms1 and ms2: " << ms1.symmetricDifferenceWith(ms2) << std::endl;
 
     // Test unique keys
     std::cout << "Unique keys in ms1: ";

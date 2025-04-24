@@ -269,11 +269,16 @@ MultiSet::Container tree;
      */
     std::ostream& operator<< (std::ostream& os, const MultiSet& ms) {
         os << "{";
-        auto keysList = multiSet->uniqueKeys();
-        for (size_t i = 0; i < keysList.size(); ++i) {
-            const auto& key = keysList[i];
-            os << key << ":" << multiSet->count(key);
-            if (i < keysList.size() - 1) os << ", ";
+        std::vector<std::string> keys = multiSet->keys();
+        for (size_t i = 0; i < keys.size(); ++i) {
+            const auto& key = keys[i];
+            size_t count = multiSet->count(key);  // Get the number of occurrences
+            for (int j = 0; j < count; ++j) {
+                os << key;
+                if (!(i == keys.size() - 1 && j == count - 1)) {
+                    os << ",";
+                }
+            }
         }
         os << "}";
         return os;
