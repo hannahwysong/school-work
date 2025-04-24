@@ -1,0 +1,19 @@
+# ninja log v6
+1	591	1745505128424297035	CMakeFiles/Project3.2_MultiSets.dir/MultiSet.cpp.o	6bd2baff25c64954
+1	633	1745505128424019572	CMakeFiles/Project3.2_MultiSets.dir/MultiSetTests.cpp.o	814fa42ad3b0f509
+1	668	1745505128424733835	CMakeFiles/Project3.2_MultiSets.dir/AVLTree.cpp.o	163aecbf0a69ac95
+669	724	1745505129092089751	Project3.2_MultiSets	367e9dd06fd3d2a8
+7	655	1745505513837252000	CMakeFiles/Project3.2_MultiSets.dir/MultiSet.cpp.o	6bd2baff25c64954
+5	657	1745505513835984851	CMakeFiles/Project3.2_MultiSets.dir/MultiSetTests.cpp.o	814fa42ad3b0f509
+657	777	1745505514487117885	Project3.2_MultiSets	367e9dd06fd3d2a8
+4	650	1745506292484291229	CMakeFiles/Project3.2_MultiSets.dir/MultiSetTests.cpp.o	814fa42ad3b0f509
+6	651	1745506292485363666	CMakeFiles/Project3.2_MultiSets.dir/MultiSet.cpp.o	6bd2baff25c64954
+6	675	1745506292485501668	CMakeFiles/Project3.2_MultiSets.dir/AVLTree.cpp.o	163aecbf0a69ac95
+675	798	1745506293154974373	Project3.2_MultiSets	367e9dd06fd3d2a8
+13	738	1745508233655934000	CMakeFiles/Project3.2_MultiSets.dir/MultiSetTests.cpp.o	814fa42ad3b0f509
+14	749	1745508233657347141	CMakeFiles/Project3.2_MultiSets.dir/MultiSet.cpp.o	6bd2baff25c64954
+15	757	1745508233657660561	CMakeFiles/Project3.2_MultiSets.dir/AVLTree.cpp.o	163aecbf0a69ac95
+757	907	1745508234400157327	Project3.2_MultiSets	367e9dd06fd3d2a8
+7	694	1745508553763847177	CMakeFiles/Project3.2_MultiSets.dir/MultiSetTests.cpp.o	814fa42ad3b0f509
+8	706	1745508553764969232	CMakeFiles/Project3.2_MultiSets.dir/MultiSet.cpp.o	6bd2baff25c64954
+706	828	1745508554463109619	Project3.2_MultiSets	367e9dd06fd3d2a8
