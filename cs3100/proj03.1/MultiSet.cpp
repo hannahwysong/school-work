@@ -95,7 +95,7 @@ MultiSet::Container tree;
         std::vector<std::string> keys;
         std::vector<std::string> removed;
         if (tree.size() < num) {
-            //return keys;
+            return keys;
         }
         keys = tree.keys();
         for (int i = 0; i < num; i++) {
