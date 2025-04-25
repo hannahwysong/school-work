@@ -57,11 +57,11 @@ public:
 
     AVLTree &operator=(const AVLTree &other);
 
-    bool contains(const std::string &key);
+    bool contains(const std::string &key) const;
 
-    bool containsHelper(AVLTreeNode *node, const std::string &key);
+    bool containsHelper(AVLTreeNode *node, const std::string &key) const;
 
-    std::optional<int> get(const std::string &key);
+    std::optional<int> get(const std::string &key) const;
 
     std::optional<int> getHelper(AVLTreeNode *node, const std::string &key) const;
 
@@ -73,11 +73,11 @@ public:
 
     void findRangeHelper(AVLTreeNode *node, const std::string &lowKey, const std::string &highKey,std::vector<int> &result);
 
-    std::vector<std::string> keys();
+    std::vector<std::string> keys() const;
 
-    void deleteSubtree(AVLTreeNode* Node);
+    void deleteSubtree(AVLTreeNode* Node) const;
 
-    void collectKeys(AVLTreeNode *node, std::vector<std::string> &result);
+    void collectKeys(AVLTreeNode *node, std::vector<std::string> &result) const;
 
     size_t size() const;
 

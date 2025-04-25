@@ -3,6 +3,7 @@
 #include <iostream>
 
 using namespace std;
+auto multiSet = new MultiSet();
 MultiSet::Container tree;
 
     /**
@@ -111,7 +112,7 @@ MultiSet::Container tree;
      * @param key element to find
      * @return true if key is in multiset, otherwise false
      */
-    bool MultiSet::contains(const std::string& key) {
+    bool MultiSet::contains(const std::string& key) const{
         return tree.contains(key);
     }
 
@@ -122,7 +123,7 @@ MultiSet::Container tree;
      * @param key element to find the count of
      * @return how many of the given element appear
      */
-    size_t MultiSet::count(const std::string& key) {
+    size_t MultiSet::count(const std::string& key) const{
         auto current = tree.get(key);
         if (current.has_value()) {
             int count = current.value();
@@ -136,7 +137,7 @@ MultiSet::Container tree;
      *
      * @return all elements with the vector size == size()
      */
-    std::vector<std::string> MultiSet::keys() {
+    std::vector<std::string> MultiSet::keys() const{
         std::vector<std::string> result;
         auto keys = tree.keys();
 
@@ -152,7 +153,7 @@ MultiSet::Container tree;
      *
      * @return each key with vector size == uniqueSize()
      */
-    std::vector<std::string> MultiSet::uniqueKeys() {
+    std::vector<std::string> MultiSet::uniqueKeys() const{
         std::vector<std::string> result;
         auto keys = tree.keys();
 
@@ -191,7 +192,7 @@ MultiSet::Container tree;
      *
      * @return how many unique keys are currently in the multiset
      */
-    size_t MultiSet::uniqueSize() {
+    size_t MultiSet::uniqueSize() const{
         std::vector<std::string> result;
         auto keys = tree.keys();
         int numKeys = 0;
@@ -220,8 +221,19 @@ MultiSet::Container tree;
      * @param other the set to find the union with
      * @return the union of the current set with the other one
      */
-    MultiSet MultiSet::unionWith(const MultiSet& other) const {
+    MultiSet MultiSet::unionWith(const MultiSet &other) const{
+       MultiSet result;
 
+        auto keysOrig = this->keys();
+        for (const auto& key : keysOrig) {
+            result.insert(key, count(key));
+        }
+
+        auto keysOther = other.keys();
+        for (const auto& key : keysOther) {
+            result.insert(key, other.count(key));
+        }
+        return result;
     }
 
     /**
@@ -231,7 +243,13 @@ MultiSet::Container tree;
      * @return multiset with elements only found in both this and the other
      */
     MultiSet MultiSet::intersectionWith(const MultiSet& other) const {
+        MultiSet result;
 
+        auto keysOrig = this->keys();
+        for (const auto& key : keysOrig) {
+
+        }
+        return result;
     }
 
     /**
@@ -242,7 +260,7 @@ MultiSet::Container tree;
      * @return multiset with elements in the current set not found in the other
      */
     MultiSet MultiSet::differenceWith(const MultiSet& other) const {
-
+        return other;
     }
 
     /**
@@ -253,7 +271,7 @@ MultiSet::Container tree;
      * @return set containing elements unique to both this and other
      */
     MultiSet MultiSet::symmetricDifferenceWith(const MultiSet& other) const {
-
+        return other;
     }
 
     /**
@@ -261,9 +279,6 @@ MultiSet::Container tree;
      *
      * @return
      */
-    MultiSet MultiSet::cardinalityAnalytics() const {
-
-    }
 
     /**
      * Outputs a representation of the multiset
@@ -276,7 +291,7 @@ MultiSet::Container tree;
      * @param ms the MultiSet to output
      * @return reference to os
      */
-    std::ostream& operator<< (std::ostream& os, MultiSet& ms) {
+    std::ostream& operator<< (std::ostream& os, const MultiSet& ms) {
         os << "{";
         std::vector<std::string> keys = ms.keys();
         for (size_t i = 0; i < keys.size(); ++i) {

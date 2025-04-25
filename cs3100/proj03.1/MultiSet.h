@@ -83,7 +83,7 @@ public:
      * @param key element to find
      * @return true if key is in multiset, otherwise false
      */
-    bool contains(const std::string& key);
+    bool contains(const std::string& key) const;
 
     /**
      * Given an element, count determines how many times that element appears
@@ -92,21 +92,21 @@ public:
      * @param key element to find the count of
      * @return how many of the given element appear
      */
-    size_t count(const std::string& key);
+    size_t count(const std::string& key) const;
 
     /**
      * Find all elements, including duplicates
      *
      * @return all elements with the vector size == size()
      */
-    std::vector<std::string> keys();
+    std::vector<std::string> keys() const;
 
     /**
      * Find all the unique keys
      *
      * @return each key with vector size == uniqueSize()
      */
-    std::vector<std::string> uniqueKeys();
+    std::vector<std::string> uniqueKeys() const;
 
     /**
      * Determines if the multiset contains any elements
@@ -128,7 +128,7 @@ public:
      *
      * @return how many unique keys are currently in the multiset
      */
-    size_t uniqueSize();
+    size_t uniqueSize() const;
 
     /**
      * Removes all elements from the multiset
@@ -145,7 +145,7 @@ public:
      * @param other the set to find the union with
      * @return the union of the current set with the other one
      */
-    MultiSet unionWith(const MultiSet& other) const;
+    MultiSet unionWith(const MultiSet &other) const;
 
     /**
      * Returns a multiset containing only elements common to both
@@ -173,7 +173,7 @@ public:
      */
     MultiSet symmetricDifferenceWith(const MultiSet& other) const;
 
-    MultiSet cardinalityAnalytics() const;
+    //MultiSet cardinalityAnalytics() const;
 
     /**
      * Outputs a representation of the multiset
@@ -186,7 +186,7 @@ public:
      * @param ms the MultiSet to output
      * @return reference to os
      */
-    friend std::ostream& operator<< (std::ostream& os, MultiSet& ms);
+    friend std::ostream& operator<< (std::ostream& os, const MultiSet& ms);
 
 private:
     Container tree;

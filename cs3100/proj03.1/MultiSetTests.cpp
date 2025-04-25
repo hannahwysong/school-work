@@ -13,7 +13,6 @@ int main() {
     ms1.insert("B", 2);
     ms1.insert("C", 5);
 
-    std::cout << "ms1: " << ms1 << std::endl;
 
     // Test inserting elements into ms2
     std::cout << "Inserting elements into ms2...\n";
@@ -61,11 +60,24 @@ int main() {
     }
     std::cout << "\n";
 
+    // Refiling ms1 and ms2
+    ms1.clear();
+    ms2.clear();
+    ms1.insert("A", 3);
+    ms1.insert("B", 2);
+    ms1.insert("C", 5);
+    ms2.insert("B", 1);
+    ms2.insert("D", 4);
+    ms2.insert("A", 2);
+
+    std::cout << "ms1: " << ms1 << std::endl;
+    std::cout << "ms2: " << ms2 << std::endl;
+
     // Test union
-    //std::cout << "Union of ms1 and ms2: " << ms1.unionWith(ms2) << std::endl;
+    std::cout << "Union of ms1 and ms2: " << ms1.unionWith(ms2) <<  std::endl;
 
     // Test intersection
-    //std::cout << "Intersection of ms1 and ms2: " << ms1.intersectionWith(ms2) << std::endl;
+    std::cout << "Intersection of ms1 and ms2: " << ms1.intersectionWith(ms2) << std::endl;
 
     // Test difference
     //std::cout << "Difference between ms1 and ms2: " << ms1.differenceWith(ms2) << std::endl;
