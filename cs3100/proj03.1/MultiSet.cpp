@@ -257,6 +257,15 @@ MultiSet::Container tree;
     }
 
     /**
+     *
+     *
+     * @return
+     */
+    MultiSet MultiSet::cardinalityAnalytics() const {
+
+    }
+
+    /**
      * Outputs a representation of the multiset
      * One possible approach could be to print the key and its count
      * eg: {a:2, b:3, c:1}
