@@ -18,9 +18,8 @@ struct AVLTreeNode {
     size_t height;
     AVLTreeNode *left;
     AVLTreeNode *right;
-    int count{};
 
-    AVLTreeNode(std::string key, const int value, AVLTreeNode *left = nullptr, AVLTreeNode *right = nullptr, int count = 0)
+    AVLTreeNode(std::string key, const int value, AVLTreeNode *left = nullptr, AVLTreeNode *right = nullptr)
         : key(std::move(key)), value(value), height(0), left(left), right(right) {}
 };
 
@@ -65,10 +64,6 @@ public:
     std::optional<int> get(const std::string &key);
 
     std::optional<int> getHelper(AVLTreeNode *node, const std::string &key) const;
-
-    std::optional<int> getCount(const std::string &key);
-
-    std::optional<int> getCountHelper(AVLTreeNode *node, const std::string &key) const;
 
     int& operator[](const std::string& key);
 

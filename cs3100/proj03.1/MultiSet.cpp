@@ -3,7 +3,6 @@
 #include <iostream>
 
 using namespace std;
-auto multiSet = new MultiSet;
 MultiSet::Container tree;
 
     /**
@@ -50,10 +49,11 @@ MultiSet::Container tree;
      */
     bool MultiSet::insert(const std::string& key, size_t num) {
 		auto current = tree.get(key);
-                if (current.has_value()) {
-            tree[key] += 1;
-        } else {
-            tree.insert(key, 1);
+        if (current.has_value()) {
+            current.value() += static_cast<int>(num);
+        }
+        else {
+            tree.insert(key, static_cast<int>(num));
         }
         return true;
     }
@@ -73,14 +73,12 @@ MultiSet::Container tree;
             return false;
         }
 
-        if (current.value() < num) {
-            return false;
-        }
-
         if (current.value() == num) {
             tree.remove(key);
         } else {
-            tree[key] -= static_cast<int>(num);
+            int newVal = current.value() - static_cast<int>(num);
+            tree.remove(key);
+            tree.insert(key, newVal);
         }
         return true;
     }
@@ -94,18 +92,16 @@ MultiSet::Container tree;
      * @return the elements that were removed
      */
     std::vector<std::string> MultiSet::remove(size_t num) {
+        std::vector<std::string> keys;
         std::vector<std::string> removed;
-        if (num < tree.size()) {
-            return removed;
+        if (tree.size() < num) {
+            //return keys;
         }
-        for (const auto keysRemoved = uniqueKeys(); const auto& key : keysRemoved) {
-            while (tree.get(key).value() > 0 && removed.size() < num) {
-                remove(key, 1);
-                removed.push_back(key);
-            }
-            if (removed.size() == num) break;
+        keys = tree.keys();
+        for (int i = 0; i < num; i++) {
+            tree.remove(keys[i]);
+            removed.push_back(keys[i]);
         }
-
         return removed;
         }
 
@@ -127,8 +123,12 @@ MultiSet::Container tree;
      * @return how many of the given element appear
      */
     size_t MultiSet::count(const std::string& key) {
-        int count = tree.getCount(key).value();
-        return count;
+        auto current = tree.get(key);
+        if (current.has_value()) {
+            int count = current.value();
+            return count;
+        }
+        return 0;
     }
 
     /**
@@ -267,17 +267,14 @@ MultiSet::Container tree;
      * @param ms the MultiSet to output
      * @return reference to os
      */
-    std::ostream& operator<< (std::ostream& os, const MultiSet& ms) {
+    std::ostream& operator<< (std::ostream& os, MultiSet& ms) {
         os << "{";
-        std::vector<std::string> keys = multiSet->keys();
+        std::vector<std::string> keys = ms.keys();
         for (size_t i = 0; i < keys.size(); ++i) {
             const auto& key = keys[i];
-            size_t count = multiSet->count(key);  // Get the number of occurrences
-            for (int j = 0; j < count; ++j) {
-                os << key;
-                if (!(i == keys.size() - 1 && j == count - 1)) {
-                    os << ",";
-                }
+            os << key;
+            if (!(i == keys.size() - 1)) {
+                os << ",";
             }
         }
         os << "}";

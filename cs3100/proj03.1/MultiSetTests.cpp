@@ -13,6 +13,8 @@ int main() {
     ms1.insert("B", 2);
     ms1.insert("C", 5);
 
+    std::cout << "ms1: " << ms1 << std::endl;
+
     // Test inserting elements into ms2
     std::cout << "Inserting elements into ms2...\n";
     ms2.insert("B", 1);
@@ -25,17 +27,34 @@ int main() {
 
     // Test contains and count
     std::cout << "ms1 contains 'A': " << ms1.contains("A") << std::endl; // true
-    std::cout << "ms1 count of 'B': " << ms1.count("B") << std::endl; // 1
-    std::cout << "ms2 count of 'C': " << ms2.count("C") << std::endl; // 0
+    std::cout << "ms1 contains 'D': " << ms1.contains("D") << std::endl;
+    std::cout << "ms1 count of 'B': " << ms1.count("B") << std::endl; //
+    std::cout << "ms2 count of 'C': " << ms2.count("C") << std::endl; //
 
     // Test removing elements
     std::cout << "Removing 2 'A' from ms1...\n";
-    ms1.remove("A", 3);
+    ms1.remove("A", 2);
     std::cout << "ms1 after removal: " << ms1 << std::endl;
+    std::cout << "ms1 count of 'A': " << ms1.count("A") << std::endl;
+
+    std::cout << "Removing 'B' from ms1...\n";
+    ms1.remove("B", 2);
+    std::cout << "ms1 after removal: " << ms1 << std::endl;
+    std::cout << "ms1 count of 'B': " << ms1.count("B") << std::endl;
+
+    // Refiling ms1 and ms2
+    ms1.clear();
+    ms2.clear();
+    ms1.insert("A", 3);
+    ms1.insert("B", 2);
+    ms1.insert("C", 5);
+    ms2.insert("B", 1);
+    ms2.insert("D", 4);
+    ms2.insert("A", 2);
 
     // Test remove arbitrary elements
-    std::cout << "Removing 2 arbitrary elements from ms2...\n";
-    auto removed = ms2.remove(2);
+    std::cout << "Removing 2 arbitrary elements from ms1...\n";
+    auto removed = ms1.remove(2);
     std::cout << "Removed elements from ms2: ";
     for (const auto& elem : removed) {
         std::cout << elem << " ";
@@ -55,8 +74,8 @@ int main() {
     //std::cout << "Symmetric difference between ms1 and ms2: " << ms1.symmetricDifferenceWith(ms2) << std::endl;
 
     // Test unique keys
-    std::cout << "Unique keys in ms1: ";
-    for (const auto& key : ms1.uniqueKeys()) {
+    std::cout << "Unique keys in ms2: ";
+    for (const auto& key : ms2.uniqueKeys()) {
         std::cout << key << " ";
     }
     std::cout << std::endl;

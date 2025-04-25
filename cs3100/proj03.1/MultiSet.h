@@ -184,7 +184,7 @@ public:
      * @param ms the MultiSet to output
      * @return reference to os
      */
-    friend std::ostream& operator<< (std::ostream& os, const MultiSet& ms);
+    friend std::ostream& operator<< (std::ostream& os, MultiSet& ms);
 
 private:
     Container tree;
