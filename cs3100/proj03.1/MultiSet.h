@@ -173,6 +173,12 @@ public:
      */
     MultiSet symmetricDifferenceWith(const MultiSet& other) const;
 
+    /**
+    * Returns a multiset containing Add a method that returns a sorted list of (element, count) pairs
+    * that are sorted by most frequent -> least frequent
+     *
+     * @return set containing the sorted elements
+     */
     MultiSet cardinalityAnalytics() const;
 
     /**
