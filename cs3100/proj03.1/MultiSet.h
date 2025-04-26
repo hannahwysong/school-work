@@ -173,7 +173,7 @@ public:
      */
     MultiSet symmetricDifferenceWith(const MultiSet& other) const;
 
-    //MultiSet cardinalityAnalytics() const;
+    MultiSet cardinalityAnalytics() const;
 
     /**
      * Outputs a representation of the multiset

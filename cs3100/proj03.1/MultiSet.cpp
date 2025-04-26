@@ -172,10 +172,7 @@ MultiSet::Container tree;
      * otherwise false
      */
     bool MultiSet::empty() const {
-        if (tree.numNodes == 0) {
-            return false;
-        }
-        return true;
+        return tree.numNodes == 0;
     }
 
     /**
@@ -222,18 +219,18 @@ MultiSet::Container tree;
      * @return the union of the current set with the other one
      */
     MultiSet MultiSet::unionWith(const MultiSet &other) const{
-       MultiSet result;
+       MultiSet ms;
 
         auto keysOrig = this->keys();
         for (const auto& key : keysOrig) {
-            result.insert(key, count(key));
+            ms.insert(key, count(key));
         }
 
         auto keysOther = other.keys();
         for (const auto& key : keysOther) {
-            result.insert(key, other.count(key));
+            ms.insert(key, other.count(key));
         }
-        return result;
+        return ms;
     }
 
     /**
@@ -243,13 +240,22 @@ MultiSet::Container tree;
      * @return multiset with elements only found in both this and the other
      */
     MultiSet MultiSet::intersectionWith(const MultiSet& other) const {
-        MultiSet result;
+        MultiSet ms;
 
         auto keysOrig = this->keys();
         for (const auto& key : keysOrig) {
-
+            if (other.contains(key)) {
+                int origCount = this->count(key);
+                int otherCount = other.count(key);
+                if (origCount > otherCount) {
+                    ms.insert(key, otherCount);
+                }
+                else {
+                    ms.insert(key, origCount);
+                }
+            }
         }
-        return result;
+        return ms;
     }
 
     /**
@@ -260,7 +266,20 @@ MultiSet::Container tree;
      * @return multiset with elements in the current set not found in the other
      */
     MultiSet MultiSet::differenceWith(const MultiSet& other) const {
-        return other;
+        MultiSet ms;
+
+        auto keys = this->tree.keys();
+        for (const auto& key : keys) {
+            int origCount= this->count(key);
+            int otherCount = other.count(key);
+
+            if (origCount > otherCount) {
+                ms.insert(key, origCount - otherCount);
+            } else if (otherCount == 0) {
+                ms.insert(key, origCount);
+            }
+        }
+        return ms;
     }
 
     /**
@@ -271,14 +290,37 @@ MultiSet::Container tree;
      * @return set containing elements unique to both this and other
      */
     MultiSet MultiSet::symmetricDifferenceWith(const MultiSet& other) const {
-        return other;
+        MultiSet unionSet = this->unionWith(other);
+        MultiSet intersectionSet = this->intersectionWith(other);
+        return unionSet.differenceWith(intersectionSet);
     }
 
     /**
+    * Returns a multiset containing Add a method that returns a sorted list of (element, count) pairs
+    * that are sorted by most frequent -> least frequent
      *
-     *
-     * @return
+     * @return set containing the sorted elements
      */
+    MultiSet MultiSet::cardinalityAnalytics() const {
+        MultiSet ms;
+        MultiSet temp = *this;
+
+        while (!temp.empty()) {
+            std::string maxKey;
+            int maxCount = -1;
+
+            for (const auto& key : temp.tree.keys()) {
+                int count = static_cast<int>(temp.count(key));
+                if (count > maxCount || (count == maxCount && key < maxKey)) {
+                    maxCount = count;
+                    maxKey = key;
+                }
+            }
+            ms.insert(maxKey, maxCount);
+            temp.remove(maxKey, maxCount);
+        }
+        return ms;
+    }
 
     /**
      * Outputs a representation of the multiset
