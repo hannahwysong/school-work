@@ -32,7 +32,7 @@ AVLTree::AVLTree(const AVLTree& other) : root(nullptr), numNodes(0) {
 /// deleteSubtree(node)
 /// Recursively delete nodes
 /// @param node The internal node being deleted
-void AVLTree::deleteSubtree(AVLTreeNode* node) {
+void AVLTree::deleteSubtree(AVLTreeNode* node) const {
     if (!node) return;
     deleteSubtree(node->left);
     deleteSubtree(node->right);
@@ -230,7 +230,7 @@ AVLTree& AVLTree::operator=(const AVLTree& other) {
 /// Returns true or false if key exists or not
 /// @param key the key pair
 /// @returns true if the key is located, false otherwise
-bool AVLTree::contains(const string& key) {
+bool AVLTree::contains(const string& key) const {
     return containsHelper(root, key);
 }
 
@@ -239,7 +239,7 @@ bool AVLTree::contains(const string& key) {
 /// @param node the root node
 /// @param key the key pair
 /// @return true if the node exists, false otherwise
-bool AVLTree::containsHelper(AVLTreeNode* node, const string& key) {
+bool AVLTree::containsHelper(AVLTreeNode* node, const string& key) const {
     if (!node) return false;
     if (key == node->key) return true;
     if (key < node->key) return containsHelper(node->left, key);
@@ -250,7 +250,7 @@ bool AVLTree::containsHelper(AVLTreeNode* node, const string& key) {
 /// Get value if exists
 /// @param key the key pair
 /// @return the value assocaited with the key
-optional<int> AVLTree::get(const string& key) {
+optional<int> AVLTree::get(const string& key) const {
     return getHelper(root, key);
 }
 
@@ -265,7 +265,6 @@ optional<int> AVLTree::getHelper(AVLTreeNode* node, const string& key) const {
     if (key < node->key) return getHelper(node->left, key);
     return getHelper(node->right, key);
 }
-
 
 /// AVLTree[key]
 /// Allows keys to be inserted using the [] syntax
@@ -324,7 +323,7 @@ void AVLTree::findRangeHelper(AVLTreeNode* node, const string& lowKey, const str
 /// keys()
 /// gets an array of all keys in AVLTree
 /// @return the key list of all nodes
-vector<string> AVLTree::keys() {
+vector<string> AVLTree::keys() const {
     vector<string> result;
     collectKeys(root, result);
     return result;
@@ -334,7 +333,7 @@ vector<string> AVLTree::keys() {
 /// returns an array of keys starting at node
 /// @param node the root node
 /// @param result an array of keys
-void AVLTree::collectKeys(AVLTreeNode* node, vector<string>& result) {
+void AVLTree::collectKeys(AVLTreeNode* node, vector<string>& result) const {
     if (!node) return;
     collectKeys(node->left, result);
     result.push_back(node->key);

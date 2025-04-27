@@ -5,6 +5,7 @@
  *  to implement a chosen extension function as detailed in the assignment PDF.
  *  You can add to this file, but do not change any of the declarations
  */
+#pragma once
 #include "AVLTree.h"
 #include <string>
 #include <vector>
@@ -58,7 +59,7 @@ public:
 
     /**
      * Remove the key from the multiset, with optional parameter for how
-     * many duplicates to remove. If num > coumt(key), no keys are removed
+     * many duplicates to remove. If num > count(key), no keys are removed
      *
      * @param key key to be removed
      * @param num how many copies of key to remove
@@ -77,7 +78,7 @@ public:
     std::vector<std::string> remove(size_t num = 1);
 
     /**
-     * Determins if they key is in the multiset at least once
+     * Determines if they key is in the multiset at least once
      *
      * @param key element to find
      * @return true if key is in multiset, otherwise false
@@ -85,7 +86,7 @@ public:
     bool contains(const std::string& key) const;
 
     /**
-     * Given an element, count determins how many times that element appears
+     * Given an element, count determines how many times that element appears
      * in the multiset
      *
      * @param key element to find the count of
@@ -111,9 +112,9 @@ public:
      * Determines if the multiset contains any elements
      *
      * @return true if there are any elements in the multiset,
-     * othersize false
+     * otherwise false
      */
-    bool empty();
+    bool empty() const;
 
     /**
      * Determines the total number of elements
@@ -144,7 +145,7 @@ public:
      * @param other the set to find the union with
      * @return the union of the current set with the other one
      */
-    MultiSet unionWith(const MultiSet& other) const;
+    MultiSet unionWith(const MultiSet &other) const;
 
     /**
      * Returns a multiset containing only elements common to both
@@ -167,17 +168,25 @@ public:
      * Returns a multiset containing elements that are either in this or the
      * other multiset, but not in both
      *
-     * @param other the set to find the symmetric differnce with
+     * @param other the set to find the symmetric difference with
      * @return set containing elements unique to both this and other
      */
     MultiSet symmetricDifferenceWith(const MultiSet& other) const;
+
+    /**
+    * Returns a multiset containing Add a method that returns a sorted list of (element, count) pairs
+    * that are sorted by most frequent -> least frequent
+     *
+     * @return set containing the sorted elements
+     */
+    MultiSet cardinalityAnalytics() const;
 
     /**
      * Outputs a representation of the multiset
      * One possible approach could be to print the key and its count
      * eg: {a:2, b:3, c:1}
      * or, print each element
-     * eg. {a, a, b, b, b, c}
+     * e.g. {a, a, b, b, b, c}
      *
      * @param os the ostream to output to
      * @param ms the MultiSet to output
@@ -186,5 +195,5 @@ public:
     friend std::ostream& operator<< (std::ostream& os, const MultiSet& ms);
 
 private:
-    Container elements{};
+    Container tree;
 };

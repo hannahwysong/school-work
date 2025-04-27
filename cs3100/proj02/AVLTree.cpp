@@ -70,7 +70,7 @@ bool AVLTree::insertNode(AVLTreeNode*& node, const string& key, int value) {
     } else if (key > node->key) {
         if (!insertNode(node->right, key, value)) return false;
     } else {
-        return false;
+        node->count++;
     }
 
     updateHeight(node);
@@ -264,6 +264,17 @@ optional<int> AVLTree::getHelper(AVLTreeNode* node, const string& key) const {
     if (key == node->key) return node->value;
     if (key < node->key) return getHelper(node->left, key);
     return getHelper(node->right, key);
+}
+
+optional<int> AVLTree::getCount(const string& key) {
+  if (!contains(key)) return 0;
+  return getCountHelper(root, key);
+}
+optional<int> AVLTree::getCountHelper(AVLTreeNode* node, const string& key) const {
+  if (!node) return nullopt;
+  if (key == node->key) return node->count;
+    if (key < node->key) return getCountHelper(node->left, key);
+    return getCountHelper(node->right, key);
 }
 
 

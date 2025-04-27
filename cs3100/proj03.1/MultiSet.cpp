@@ -3,21 +3,20 @@
 #include <iostream>
 
 using namespace std;
-auto multiSet = new MultiSet;
+auto multiSet = new MultiSet();
+MultiSet::Container tree;
 
     /**
     * Default constructor, initializes the set to be empty
     */
-    MultiSet::MultiSet() : elements() {}
+    MultiSet::MultiSet() : tree () {}
 
     /**
      * Destructor, would only be required if you had pointers inside MultiSet
      * Otherwise, your Container or other member variables should be responsible
      * for freeing the memory they are using
      */
-    MultiSet::~MultiSet() {
-
-    }
+    MultiSet::~MultiSet() = default;
 
     /**
      * Copy constructor, this MultiSet should be a deep-copy of other
@@ -25,7 +24,7 @@ auto multiSet = new MultiSet;
      * @param other the MultiSet to be copied
      */
     MultiSet::MultiSet(const MultiSet& other) {
-
+        tree = other.tree;
     }
 
     /**
@@ -35,7 +34,10 @@ auto multiSet = new MultiSet;
      * @return
      */
     MultiSet& MultiSet::operator=(const MultiSet& other) {
-
+        if (this != &other) {
+            tree = other.tree;
+        }
+        return *this;
     }
 
     /**
@@ -47,12 +49,19 @@ auto multiSet = new MultiSet;
      * @return true if element was insert, false if an error was encountered
      */
     bool MultiSet::insert(const std::string& key, size_t num) {
-
+		auto current = tree.get(key);
+        if (current.has_value()) {
+            current.value() += static_cast<int>(num);
+        }
+        else {
+            tree.insert(key, static_cast<int>(num));
+        }
+        return true;
     }
 
     /**
      * Remove the key from the multiset, with optional parameter for how
-     * many duplicates to remove. If num > coumt(key), no keys are removed
+     * many duplicates to remove. If num > count(key), no keys are removed
      *
      * @param key key to be removed
      * @param num how many copies of key to remove
@@ -60,8 +69,21 @@ auto multiSet = new MultiSet;
      * or there were not enough copies based on the number to remove
      */
     bool MultiSet::remove(const std::string& key, size_t num) {
+        auto current = tree.get(key);
+        if (!current.has_value()) {
+            return false;
+        }
 
+        if (current.value() == num) {
+            tree.remove(key);
+        } else {
+            int newVal = current.value() - static_cast<int>(num);
+            tree.remove(key);
+            tree.insert(key, newVal);
+        }
+        return true;
     }
+
 
     /**
      * Remove the given number of arbitrary elements from the multiset. If
@@ -71,28 +93,43 @@ auto multiSet = new MultiSet;
      * @return the elements that were removed
      */
     std::vector<std::string> MultiSet::remove(size_t num) {
+        std::vector<std::string> keys;
+        std::vector<std::string> removed;
+        if (tree.size() < num) {
+            return keys;
+        }
+        keys = tree.keys();
+        for (int i = 0; i < num; i++) {
+            tree.remove(keys[i]);
+            removed.push_back(keys[i]);
+        }
+        return removed;
+        }
 
-    }
-
-    /**
-     * Determins if they key is in the multiset at least once
+/**
+     * Determines if they key is in the multiset at least once
      *
      * @param key element to find
      * @return true if key is in multiset, otherwise false
      */
-    bool MultiSet::contains(const std::string& key) const {
-
+    bool MultiSet::contains(const std::string& key) const{
+        return tree.contains(key);
     }
 
     /**
-     * Given an element, count determins how many times that element appears
+     * Given an element, count determines how many times that element appears
      * in the multiset
      *
      * @param key element to find the count of
      * @return how many of the given element appear
      */
-    size_t MultiSet::count(const std::string& key) const {
-
+    size_t MultiSet::count(const std::string& key) const{
+        auto current = tree.get(key);
+        if (current.has_value()) {
+            int count = current.value();
+            return count;
+        }
+        return 0;
     }
 
     /**
@@ -100,8 +137,15 @@ auto multiSet = new MultiSet;
      *
      * @return all elements with the vector size == size()
      */
-    std::vector<std::string> MultiSet::keys() const {
+    std::vector<std::string> MultiSet::keys() const{
+        std::vector<std::string> result;
+        auto keys = tree.keys();
 
+        for (const auto& k : keys) {
+            size_t c = count(k);
+            result.insert(result.end(), c, k);
+        }
+        return result;
     }
 
     /**
@@ -109,18 +153,26 @@ auto multiSet = new MultiSet;
      *
      * @return each key with vector size == uniqueSize()
      */
-    std::vector<std::string> MultiSet::uniqueKeys() const {
+    std::vector<std::string> MultiSet::uniqueKeys() const{
+        std::vector<std::string> result;
+        auto keys = tree.keys();
 
+        for (const auto& k : keys) {
+            if (count(k) == 1) {
+                result.insert(result.end(), k);
+            }
+        }
+        return result;
     }
 
     /**
      * Determines if the multiset contains any elements
      *
      * @return true if there are any elements in the multiset,
-     * othersize false
+     * otherwise false
      */
-    bool MultiSet::empty() {
-
+    bool MultiSet::empty() const {
+        return tree.numNodes == 0;
     }
 
     /**
@@ -129,7 +181,7 @@ auto multiSet = new MultiSet;
      * @return how many elements in total are currently in the multiset
      */
     size_t MultiSet::size() const {
-
+        return tree.size();
     }
 
     /**
@@ -137,15 +189,23 @@ auto multiSet = new MultiSet;
      *
      * @return how many unique keys are currently in the multiset
      */
-    size_t MultiSet::uniqueSize() const {
-
+    size_t MultiSet::uniqueSize() const{
+        std::vector<std::string> result;
+        auto keys = tree.keys();
+        int numKeys = 0;
+        for (auto& k : keys) {
+            if (count(k) == 1) {
+                numKeys++;
+            }
+        }
+        return numKeys;
     }
 
     /**
      * Removes all elements from the multiset
      */
     void MultiSet::clear() {
-
+        tree = Container();
     }
 
     /////////////////
@@ -158,8 +218,19 @@ auto multiSet = new MultiSet;
      * @param other the set to find the union with
      * @return the union of the current set with the other one
      */
-    MultiSet MultiSet::unionWith(const MultiSet& other) const {
+    MultiSet MultiSet::unionWith(const MultiSet &other) const{
+       MultiSet ms;
 
+        auto keysOrig = this->keys();
+        for (const auto& key : keysOrig) {
+            ms.insert(key, count(key));
+        }
+
+        auto keysOther = other.keys();
+        for (const auto& key : keysOther) {
+            ms.insert(key, other.count(key));
+        }
+        return ms;
     }
 
     /**
@@ -169,7 +240,22 @@ auto multiSet = new MultiSet;
      * @return multiset with elements only found in both this and the other
      */
     MultiSet MultiSet::intersectionWith(const MultiSet& other) const {
+        MultiSet ms;
 
+        auto keysOrig = this->keys();
+        for (const auto& key : keysOrig) {
+            if (other.contains(key)) {
+                int origCount = this->count(key);
+                int otherCount = other.count(key);
+                if (origCount > otherCount) {
+                    ms.insert(key, otherCount);
+                }
+                else {
+                    ms.insert(key, origCount);
+                }
+            }
+        }
+        return ms;
     }
 
     /**
@@ -180,18 +266,60 @@ auto multiSet = new MultiSet;
      * @return multiset with elements in the current set not found in the other
      */
     MultiSet MultiSet::differenceWith(const MultiSet& other) const {
+        MultiSet ms;
 
+        auto keys = this->tree.keys();
+        for (const auto& key : keys) {
+            int origCount= this->count(key);
+            int otherCount = other.count(key);
+
+            if (origCount > otherCount) {
+                ms.insert(key, origCount - otherCount);
+            } else if (otherCount == 0) {
+                ms.insert(key, origCount);
+            }
+        }
+        return ms;
     }
 
     /**
      * Returns a multiset containing elements that are either in this or the
      * other multiset, but not in both
      *
-     * @param other the set to find the symmetric differnce with
+     * @param other the set to find the symmetric difference with
      * @return set containing elements unique to both this and other
      */
     MultiSet MultiSet::symmetricDifferenceWith(const MultiSet& other) const {
+        MultiSet unionSet = this->unionWith(other);
+        MultiSet intersectionSet = this->intersectionWith(other);
+        return unionSet.differenceWith(intersectionSet);
+    }
 
+    /**
+    * Returns a multiset containing Add a method that returns a sorted list of (element, count) pairs
+    * that are sorted by most frequent -> least frequent
+     *
+     * @return set containing the sorted elements
+     */
+    MultiSet MultiSet::cardinalityAnalytics() const {
+        MultiSet ms;
+        MultiSet temp = *this;
+
+        while (!temp.empty()) {
+            std::string maxKey;
+            int maxCount = -1;
+
+            for (const auto& key : temp.tree.keys()) {
+                int count = static_cast<int>(temp.count(key));
+                if (count > maxCount || (count == maxCount && key < maxKey)) {
+                    maxCount = count;
+                    maxKey = key;
+                }
+            }
+            ms.insert(maxKey, maxCount);
+            temp.remove(maxKey, maxCount);
+        }
+        return ms;
     }
 
     /**
@@ -199,13 +327,23 @@ auto multiSet = new MultiSet;
      * One possible approach could be to print the key and its count
      * eg: {a:2, b:3, c:1}
      * or, print each element
-     * eg. {a, a, b, b, b, c}
+     * e.g. {a, a, b, b, b, c}
      *
      * @param os the ostream to output to
      * @param ms the MultiSet to output
      * @return reference to os
      */
     std::ostream& operator<< (std::ostream& os, const MultiSet& ms) {
-
+        os << "{";
+        std::vector<std::string> keys = ms.keys();
+        for (size_t i = 0; i < keys.size(); ++i) {
+            const auto& key = keys[i];
+            os << key;
+            if (!(i == keys.size() - 1)) {
+                os << ",";
+            }
+        }
+        os << "}";
+        return os;
     }
 

@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/hannahwysong/school-work/cs3100/proj02/cmake-build-debug"
+			"value" : "/Users/hannahwysong/school-work/cs3100/proj03.1/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -479,7 +479,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/hannahwysong/school-work/cs3100/proj02/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "/Users/hannahwysong/school-work/cs3100/proj03.1/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -539,7 +539,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/hannahwysong/school-work/cs3100/proj02"
+			"value" : "/Users/hannahwysong/school-work/cs3100/proj03.1"
 		},
 		{
 			"name" : "CMAKE_INSTALL_NAME_TOOL",
@@ -819,7 +819,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "Project2_AVLTree"
+			"value" : "Project3.1_MultiSets"
 		},
 		{
 			"name" : "CMAKE_RANLIB",
@@ -1118,7 +1118,7 @@
 			"value" : "FALSE"
 		},
 		{
-			"name" : "Project2_AVLTree_BINARY_DIR",
+			"name" : "Project3.1_MultiSets_BINARY_DIR",
 			"properties" : 
 			[
 				{
@@ -1127,10 +1127,10 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/hannahwysong/school-work/cs3100/proj02/cmake-build-debug"
+			"value" : "/Users/hannahwysong/school-work/cs3100/proj03.1/cmake-build-debug"
 		},
 		{
-			"name" : "Project2_AVLTree_IS_TOP_LEVEL",
+			"name" : "Project3.1_MultiSets_IS_TOP_LEVEL",
 			"properties" : 
 			[
 				{
@@ -1142,7 +1142,7 @@
 			"value" : "ON"
 		},
 		{
-			"name" : "Project2_AVLTree_SOURCE_DIR",
+			"name" : "Project3.1_MultiSets_SOURCE_DIR",
 			"properties" : 
 			[
 				{
@@ -1151,7 +1151,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/hannahwysong/school-work/cs3100/proj02"
+			"value" : "/Users/hannahwysong/school-work/cs3100/proj03.1"
 		}
 	],
 	"kind" : "cache",
